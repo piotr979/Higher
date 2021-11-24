@@ -8,26 +8,27 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 class FrontController extends AbstractController
 {
-    #[Route('/', name: 'front')]
+    #[Route('/', name: 'main')]
     public function index(): Response
     {
 
         return $this->render('front/index.html.twig');
     }
-    #[Route('/comment', name: 'comment')]
-    public function comment()
+    
+    #[Route('/profile', name:'profile')]
+    public function userpanel()
     {
-        $user = new User();
-        $em = $this->getDoctrine()->getManager();
-        $user->setEmail("wp@wp.pl");
-        $user->setPassword("123456");
-        $user->setFirstName("Edi");
-        $em->persist($user);
-        $em->flush();
-        return new Response("success");
+        $current_user = $this->getUser();
+        dump($current_user->getId());
+        return $this->render('front/profile.html.twig', [
 
-
-
-
+        ]);
     }
+
+    #[Route('/articles', name: 'articles')]
+    public function articles()
+    {
+        return new Response("articles");
+    }
+
 }

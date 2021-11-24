@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<!-- USER PANEL STARTS HERE -->
+
+<div class="container-xl mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Articles</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+
+                <!-- FIRST TAB -->
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h4 class="text-center my-4">Your articles</h4>
+
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Tags</th>
+                                <th scope="col">Date added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>AI for housekeeping</td>
+                                <td>Electronics, Computers, AI</td>
+                                <td>10/02/2020</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Pesto without pasta</td>
+                                <td>Cooking, Food, Fitness</td>
+                                <td>27/11/2021</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td >The rise of the robots</td>
+                                <td>Electronics, Science</td>
+                                <td>14/07/2021</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                    <div class="text-center mb-4">
+                        <a class="btn btn-primary" href="article-new.html">Add article</a>
+                    </div>
+                </div>
+
+                <!-- FIRST TAB ENDS HERE -->
+
+                <!-- SECOND TAB -->
+                <div class="tab-pane fade col-12 col-lg-8 text-lg-center mx-lg-auto" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <form action="">
+
+                        <div class="my-3">
+                        <label for="first_name" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="first_name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="last_name">
+                    </div>
+                    <button class="cta-save-profile btn btn-primary my-4">Update profile</button>
+                    </form>
+                </div>
+
+                <!-- SECOND TAB ENDS HERE -->
+            
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- LOGIN FORM ENDS HERE -->
+
+{% endblock %}

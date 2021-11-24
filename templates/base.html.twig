@@ -31,10 +31,10 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ms-auto ">
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="index.html">Home</a>
+							<a class="nav-link active" aria-current="page" href="{{ path('main') }}">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link link-text-dark" href="articles.html">Articles</a>
+							<a class="nav-link link-text-dark" href="{{ path('articles') }}">Articles</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="subscription.html">Subscription</a>
@@ -44,8 +44,16 @@
 						</li>
 						<li class="nav-item"></li>
 					</ul>
-          <a href="{{ path('app_login') }}" class="btn btn-primary btn-sm ms-lg-5" tabindex="-1" role="button" aria-disabled="true">Login/Register</a>
-				</div>
+        <div class="buttons-user ms-lg-5 mx-center">
+          {% if is_granted("ROLE_USER") %}
+          <a href="{{ path('profile') }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">User panel</a>
+          <a href="{{ path('app_logout') }}" class="btn btn-secondary btn-sm ms-lg-3" tabindex="-1" role="button" aria-disabled="true">Logout</a>
+          {% else %}
+          <a href="{{ path('app_login') }}" class="btn btn-primary btn-sm" tabindex="-1" role="button" aria-disabled="true">Login/Register</a>
+          {% endif %}
+        </div>
+        
+        </div>
 			</div>
 		</nav>
 
@@ -53,7 +61,7 @@
       
        
      <!-- FOOTER STARTS HERE -->
-<footer class="container-fluid slider-full mt-5">
+<footer class="container-fluid slider-full mt-auto">
     <div class="container-xl pt-4 pb-4">
       <div class="row">
     
@@ -119,6 +127,7 @@
     </footer>
     
     <!-- FOOTER ENDS HERE -->
-    
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
     </body>
+
 </html>

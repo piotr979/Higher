@@ -22520,5 +22520,8 @@ p.display-4-slide {
     display: none;
   }
 }
-
+.field-required:after {
+  content: "*";
+  color: red;
+}
 /*# sourceMappingURL=main.css.map */
