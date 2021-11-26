@@ -17,11 +17,19 @@ class UserFixtures extends Fixture
             '123456',
             'John',
             'Murphy',
-            ''
+            'public/assets/images/christian-buehner-DItYlc26zVI-unsplash.jpg'
+            );
+        $user2 = $this->userFactory(
+            'adh@gmail.com',
+            '123456',
+            'Andrea',
+            'Jackson',
+            'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg'
             );
 
             // $product = new Product();
-        // $manager->persist($product);
+         $manager->persist($user);
+         $manager->persist($user2);
 
         $manager->flush();
     }
