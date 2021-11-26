@@ -18,10 +18,16 @@ class FrontController extends AbstractController
     #[Route('/profile', name:'profile')]
     public function userpanel()
     {
-        $current_user = $this->getUser();
-        dump($current_user->getId());
+        $user_id = $this->getUser()->getId();
+        $user_first_name = $this->getUser()->getFirstName();
+        $user_last_name = $this->getUser()->getLastName();
+        $user_articles = $this->getUser()->getArticles()->getValues();
+        
+        dump($user_articles);
         return $this->render('front/profile.html.twig', [
-
+            'first_name' => $user_first_name,
+            'last_name' => $user_last_name,
+            'articles' => $user_articles
         ]);
     }
 

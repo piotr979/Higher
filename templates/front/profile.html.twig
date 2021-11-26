@@ -31,24 +31,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                         
+                            {% for article in articles %}
                             <tr>
                                 <th scope="row">1</th>
-                                <td>AI for housekeeping</td>
+                                <td>{{article.title}}</td>
                                 <td>Electronics, Computers, AI</td>
                                 <td>10/02/2020</td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Pesto without pasta</td>
-                                <td>Cooking, Food, Fitness</td>
-                                <td>27/11/2021</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td >The rise of the robots</td>
-                                <td>Electronics, Science</td>
-                                <td>14/07/2021</td>
-                            </tr>
+                            {% endfor %}
+                            
+                          
+                           
                         </tbody>
                     </table>
                 </div>

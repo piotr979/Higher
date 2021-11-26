@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,21 @@ class Article
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image_url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="articles")
+     */
+    private $tags_id;
+
+    public function __construct()
+    {
+        $this->tags_id = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +87,42 @@ class Article
     public function setImageUrl(?string $image_url): self
     {
         $this->image_url = $image_url;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTagsId(): Collection
+    {
+        return $this->tags_id;
+    }
+
+    public function addTagsId(Tag $tagsId): self
+    {
+        if (!$this->tags_id->contains($tagsId)) {
+            $this->tags_id[] = $tagsId;
+        }
+
+        return $this;
+    }
+
+    public function removeTagsId(Tag $tagsId): self
+    {
+        $this->tags_id->removeElement($tagsId);
 
         return $this;
     }
