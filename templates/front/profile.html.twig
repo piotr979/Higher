@@ -47,34 +47,38 @@
                     </table>
                 </div>
                     <div class="text-center mb-4">
-                        <a class="btn btn-primary" href="article-new.html">Add article</a>
+                        <a class="btn btn-primary" href="{{ path('article-new') }}">Add article</a>
                     </div>
                 </div>
 
                 <!-- FIRST TAB ENDS HERE -->
 
                 <!-- SECOND TAB -->
-                <div class="tab-pane fade col-12 col-lg-8 text-lg-center mx-lg-auto" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <form action="">
 
-                        <div class="my-3">
-                        <label for="first_name" class="form-label">First name</label>
-                        <input type="text" class="form-control" name="first_name">
-                    </div>
+              
+                <div class="tab-pane fade col-12 col-lg-8 mx-lg-auto" 
+                    id="profile" 
+                    role="tabpanel" 
+                    aria-labelledby="profile-tab">
 
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last name</label>
-                        <input type="text" class="form-control" name="last_name">
+                    <div class="row mt-4 d-flex">
+                        <div class="col-12 col-md-4 d-flex justify-content-center">
+                            <img class="profile-photo mx-auto" 
+                            src="{{ asset('assets/images/users/christian-buehner-DItYlc26zVI-unsplash.jpg') }}" alt="">
+                        </div>
+                        <div class="col-12 col-md-8 mt-4 mt-md-0">
+                            <h2 class="text-center">{{ first_name }}&nbsp;{{ last_name }}</h2>
+                        </div>
                     </div>
-                    <button class="cta-save-profile btn btn-primary my-4">Update profile</button>
-                    </form>
+                    <div class="mt-3 text-lg-center ">
+                        <div class="user-basics">
+                          
+                        </div>
+                    {{ form(userForm) }}
+
+                    </div>
                 </div>
-
-                <!-- SECOND TAB ENDS HERE -->
-            
             </div>
-
-
         </div>
     </div>
 </div>

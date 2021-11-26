@@ -22524,4 +22524,8 @@ p.display-4-slide {
   content: "*";
   color: red;
 }
+.profile-photo {
+  width: 10rem;
+  height: auto;
+}
 /*# sourceMappingURL=main.css.map */

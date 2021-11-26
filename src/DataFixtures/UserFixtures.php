@@ -9,6 +9,12 @@ use App\Entity\User;
 
 class UserFixtures extends Fixture
 {
+    public $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher) 
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
        
@@ -20,7 +26,7 @@ class UserFixtures extends Fixture
             'public/assets/images/christian-buehner-DItYlc26zVI-unsplash.jpg'
             );
         $user2 = $this->userFactory(
-            'adh@gmail.com',
+            'user@user.com',
             '123456',
             'Andrea',
             'Jackson',
@@ -41,7 +47,7 @@ class UserFixtures extends Fixture
             string $imageUrl = '',
             ): User
     {
-        $passwordHasher = new UserPasswordHasherInterface;
+       
         $user = new User();
         $user->setEmail($email);
         $user->setFirstName($firstName);
@@ -49,7 +55,7 @@ class UserFixtures extends Fixture
         $user->setPhotoUrl($imageUrl);
 
     
-        $hashedPassword = $passwordHasher->hashPassword(
+        $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
             $plainPassword
         );
