@@ -34,7 +34,7 @@ class Article
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image_url;
+    private $imageUrl;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -42,9 +42,10 @@ class Article
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity=Tag::class)
+     * @ORM\JoinTable(name="article_tag")
      */
-    private $tags_id;
+    private $tagsId;
 
     /**
      * @ORM\Column(type="integer")
@@ -54,11 +55,11 @@ class Article
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $created_at;
+    private $createdAt;
 
     public function __construct()
     {
-        $this->tags_id = new ArrayCollection();
+        $this->tagsId = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,12 +93,12 @@ class Article
 
     public function getImageUrl(): ?string
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
-    public function setImageUrl(?string $image_url): self
+    public function setImageUrl(?string $imageUrl): self
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $imageUrl;
 
         return $this;
     }
@@ -119,13 +120,13 @@ class Article
      */
     public function getTagsId(): Collection
     {
-        return $this->tags_id;
+        return $this->tagsId;
     }
 
     public function addTagsId(Tag $tagsId): self
     {
-        if (!$this->tags_id->contains($tagsId)) {
-            $this->tags_id[] = $tagsId;
+        if (!$this->tagsId->contains($tagsId)) {
+            $this->tagsId[] = $tagsId;
         }
 
         return $this;
@@ -133,7 +134,7 @@ class Article
 
     public function removeTagsId(Tag $tagsId): self
     {
-        $this->tags_id->removeElement($tagsId);
+        $this->tagsId->removeElement($tagsId);
 
         return $this;
     }
@@ -155,18 +156,18 @@ class Article
      */
     public function setCreatedAtValue()
     {
-        $this->created_at = new \DateTimeImmutable();
-        dump($this->created_at);
+        $this->createdAt = new \DateTimeImmutable();
+        dump($this->createdAt);
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

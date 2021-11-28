@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Form\ArticleFormType;
 use App\Form\ProfileFormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -73,6 +74,7 @@ class FrontController extends AbstractController
         /* Get user data to display */
         $user_id = $user->getId();
         $userArticles = $user->getArticles()->getValues();
+      
         $photoUrl = $user->getPhotoUrl();
         return $this->render('front/profile.html.twig', [
             'first_name' => $this->getUser()->getFirstName(),
@@ -109,17 +111,23 @@ class FrontController extends AbstractController
 
            $em = $this->getDoctrine()->getManager();
            $formData = $articleForm->getData();
+          // dump($formData);exit;
            $article = new Article();
            $article->setUser($this->getUser());
            $article->setTitle($formData->getTitle());
            $article->setContent($formData->getContent());
            $article->setColor($formData->getColor());
+           $tagsList = $formData->getTagsId();
+           
+           foreach ($tagsList as $tag) {
+               $article->addTagsId($tag);
+           }
+         //  $article->addTagsId($formData->getTagsId());
            if ($formData->getImageUrl()) {
                $article->setImageUrl($formData->getImageUrl());
            } 
            
            $em->persist($article);
-           dump($article);
            $em->flush();
            return $this->redirect($this->generateUrl('profile'));
            

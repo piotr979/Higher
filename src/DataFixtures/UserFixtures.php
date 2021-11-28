@@ -17,25 +17,43 @@ class UserFixtures extends Fixture
     }
     public function load(ObjectManager $manager): void
     {
+       $emails = [
+        'adh@gmail.com','user@user.com', 'user2@user2.com'
+       ];
+       $firstName = [
+        'John','Andrea', 'Robert'
+       ];
+       $lastName = [
+        'Murphy', 'Jackson','Edwin'
+       ];
+       $bio = [
+        'John Murphy is a developer based in India. He enjoys solving complex
+        technical problems and loves working with JavaScript.',
+        'Cosima has been an editor at Higher since 2013.
+         Whenever she’s not writing articles for the weekly Higher Newsletter,
+          she’s probably working on a new Life eBook.',
+          'Robert Edwin has been writing for over 30 years,
+          and is currently a web developer in New Zealand. 
+          His special interests include Gardening, parenting,
+           and role-playing games.'
+       ];
+       $images = [
+        'public/assets/images/christian-buehner-DItYlc26zVI-unsplash.jpg',
+        'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg',
+        'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg'
+       ];
        
-        $user = $this->userFactory(
-            'adh@gmail.com',
-            '123456',
-            'John',
-            'Murphy',
-            'public/assets/images/christian-buehner-DItYlc26zVI-unsplash.jpg'
-            );
-        $user2 = $this->userFactory(
-            'user@user.com',
-            '123456',
-            'Andrea',
-            'Jackson',
-            'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg'
-            );
-
-            // $product = new Product();
-         $manager->persist($user);
-         $manager->persist($user2);
+       for($i=0; $i<=count($emails); $i++) 
+       {
+           $manager->persist($this->userFactory(
+               $emails[$i],
+               '123456',
+               $firstName[$i],
+               $lastName[$i],
+               $bio[$i],
+               $images[$i]
+           ));
+       }
 
         $manager->flush();
     }
@@ -44,7 +62,8 @@ class UserFixtures extends Fixture
             string $plainPassword, 
             string $firstName, 
             string $lastName = '', 
-            string $imageUrl = '',
+            string $bio = '',
+            string $imageUrl = ''
             ): User
     {
        

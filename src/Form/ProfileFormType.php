@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -28,6 +29,9 @@ class ProfileFormType extends AbstractType
             ])
             ->add('last_name', TextType::class, [
                 'data' => $this->user->getLastName(),
+                'required' => false
+            ])
+            ->add('Bio', TextareaType::class, [
                 'required' => false
             ])
             ->add('photo', FileType::class, [
