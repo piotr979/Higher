@@ -41,7 +41,7 @@ class Tag
 
     public function getTagTitle(): ?string
     {
-        return $this->tag_title;
+        return ucfirst($this->tag_title);
     }
 
     public function setTagTitle(string $tag_title): self

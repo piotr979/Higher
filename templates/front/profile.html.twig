@@ -36,7 +36,7 @@
                             <tr>
                                 <th scope="row">1</th>
                                 <td>{{article.title}}</td>
-                                <td>Electronics, Computers, AI</td>
+                                <td>{article.tags}</td>
                                 <td>10/02/2020</td>
                             </tr>
                             {% endfor %}
@@ -64,7 +64,7 @@
                     <div class="row mt-4 d-flex">
                         <div class="col-12 col-md-4 d-flex justify-content-center">
                             <img class="profile-photo mx-auto" 
-                            src="{{ asset('assets/images/users/christian-buehner-DItYlc26zVI-unsplash.jpg') }}" alt="">
+                            src="{{ asset(photo_url) }}" alt="">
                         </div>
                         <div class="col-12 col-md-8 mt-4 mt-md-0">
                             <h2 class="text-center">{{ first_name }}&nbsp;{{ last_name }}</h2>

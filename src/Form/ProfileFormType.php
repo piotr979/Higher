@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProfileFormType extends AbstractType
 {
@@ -26,10 +27,23 @@ class ProfileFormType extends AbstractType
                 'data' => $this->user->getFirstName()
             ])
             ->add('last_name', TextType::class, [
-                'data' => $this->user->getLastName()
+                'data' => $this->user->getLastName(),
+                'required' => false
             ])
             ->add('photo', FileType::class, [
-                'label' => 'Update photo'
+                'label' => 'Update photo',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png'
+                        ]
+                    ])
+                ]
             ])
             ->add('submit', SubmitType::class)
         ;

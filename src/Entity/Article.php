@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article
 {
@@ -44,6 +45,16 @@ class Article
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="articles")
      */
     private $tags_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $color;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $created_at;
 
     public function __construct()
     {
@@ -123,6 +134,39 @@ class Article
     public function removeTagsId(Tag $tagsId): self
     {
         $this->tags_id->removeElement($tagsId);
+
+        return $this;
+    }
+
+    public function getColor(): ?int
+    {
+        return $this->color;
+    }
+
+    public function setColor(int $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->created_at = new \DateTimeImmutable();
+        dump($this->created_at);
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

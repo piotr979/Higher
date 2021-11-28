@@ -8,30 +8,58 @@
 
         <!-- FORM STARTS HERE -->
 
-        <form action="">
-            <div class="mb-3">
-            <label for="title" class="form-label">Article title</label>
-            <input type="text" class="form-control" aria-describedby="article title">
-        </div>
+    
+          
+          {# {{ form(articleForm) }} #}
 
-        <label for="image" class="form-label">Cover image</label>
-        <div class="input-group mb-3">
-            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03">Button</button>
-            <input type="file" name="image" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
-          </div>
+        
 
-         <!-- TEXT AREA --> 
-        <label class="mb-2">Your article</label>
-        <div class="form-group">
-           <textarea id="editor"></textarea>
-        </div>
-        <!-- END -->
+         
 
-        <!-- COLOR PICKER -->
+          {{ form_start(articleForm) }}
+          {{ form_row(articleForm.title) }}
+          {{ form_row(articleForm.image_url) }}
+          {{ form_row(articleForm.content) }}
+       
         <div class="d-block btn-group color-picker--wrapper" role="group" aria-label="Basic radio toggle button group">
             <label class="my-3 d-block" for="">Select group color</label>
+            {% for color in articleForm.color %} 
+            <label class="{{ 'color-picker color-picker-color-' ~ (color.vars.name + 1) }}">
+              <input type="radio" name="article_form[color]" 
+              id="{{ 'article_form_colors_' ~ color.vars.name }}" 
+              {% if (color.vars.name == 3 ) %}
+              checked="checked"
+              {% endif %}
+               value="{{ color.vars.name }}" />
+              <span class="color-picker-block"></span></label>
+            {% endfor %}
+           
+        </div>
+        
+        {{ form_end(articleForm) }}
+        <!-- COLOR PICKER ENDS HERE -->
 
-            <label class="color-picker color-picker-color-1">
+   
+
+        <!-- FORM ENDS HERE -->
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+</div>
+{{ tinymce_init({
+  theme: {'modern':{'language': app.request.locale, 'height': 500 }},
+  toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+  autosave_ask_before_unload: false
+  })
+}}
+
+{% endblock %}
+
+
+ {# <label class="color-picker color-picker-color-1">
             <input type="radio" name="color" id="color-picker-color-1" checked="checked" value="red" />
             <span class="color-picker-block"></span></label>
             
@@ -45,27 +73,4 @@
             
             <label class="color-picker color-picker-color-4">
             <input type="radio" name="color" id="color-picker-color-4" value="red" />
-            <span class="color-picker-block"></span></label>
-        </div>
-        <!-- COLOR PICKER ENDS HERE -->
-
-        <button type="submit" class="btn btn-primary mt-4">Submit</button>
-    </form>
-
-        <!-- FORM ENDS HERE -->
-      </div>
-    </div>
-  </div>
-
-  </div>
-</div>
-</div>
-     <script src="https://cdn.tiny.cloud/1/l8uwbak1mjxo895bp92fo6cr1d2uqmjo4lxqwp0dt9cwjjku/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-  tinymce.init({
-    selector: 'textarea#editor',
-    menubar: false
-  });
-</script>	
-
-{% endblock %}
+            <span class="color-picker-block"></span></label> #}

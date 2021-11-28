@@ -22528,4 +22528,7 @@ p.display-4-slide {
   width: 10rem;
   height: auto;
 }
+.hide-input {
+  display: none;
+}
 /*# sourceMappingURL=main.css.map */
