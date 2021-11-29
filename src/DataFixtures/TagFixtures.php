@@ -27,13 +27,17 @@ class TagFixtures extends Fixture
                 "Travelling",
                 "Health"];
         forEach($tags as $tag) {
-            $manager->persist($this->tagGenerator($tag));
+            $tagObject = $this->tagGenerator($tag);
+            $manager->persist($tagObject);
+            $this->addReference($tag, $tagObject);
         }
         $manager->flush();
     }
 
-    public function tagGenerator(string $tag): Tag
+    public function tagGenerator(string $tagTitle): Tag
     {
-        return new Tag($tag);
+        $tag = new Tag();
+        $tag->setTagTitle($tagTitle);
+        return $tag;
     }
 }

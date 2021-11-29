@@ -38,21 +38,24 @@ class UserFixtures extends Fixture
            and role-playing games.'
        ];
        $images = [
-        'public/assets/images/christian-buehner-DItYlc26zVI-unsplash.jpg',
-        'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg',
-        'public/assets/jessica-felicio-_cvwXhGqG-o-unsplash.jpg'
+        'uploads/users/christian-buehner-DItYlc26zVI-unsplash.jpg',
+        'uploads/users/christian-buehner-DItYlc26zVI-unsplash.jpg',
+        'uploads/users/ben-parker-OhKElOkQ3RE-unsplash.jpg'
        ];
-       
-       for($i=0; $i<=count($emails); $i++) 
+       $users = [];
+       for($i=0; $i<=(count($emails)-1); $i++) 
        {
-           $manager->persist($this->userFactory(
-               $emails[$i],
-               '123456',
-               $firstName[$i],
-               $lastName[$i],
-               $bio[$i],
-               $images[$i]
-           ));
+           
+          $users[] = $this->userFactory(
+            $emails[$i],
+            '123456',
+            $firstName[$i],
+            $lastName[$i],
+            $bio[$i],
+            $images[$i]
+          );
+          $this->addReference("user$i", $users[$i]);
+           $manager->persist($users[$i]);
        }
 
         $manager->flush();

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -23,14 +24,16 @@ class Comment
     private $user;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $datestamp;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
 
     public function getId(): ?int
     {
@@ -48,19 +51,6 @@ class Comment
 
         return $this;
     }
-
-    public function getDatestamp(): ?\DateTimeInterface
-    {
-        return $this->datestamp;
-    }
-
-    public function setDatestamp(\DateTimeInterface $datestamp): self
-    {
-        $this->datestamp = $datestamp;
-
-        return $this;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
@@ -69,6 +59,25 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }

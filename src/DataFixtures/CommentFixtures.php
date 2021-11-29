@@ -14,4 +14,8 @@ class CommentFixtures extends Fixture
 
         $manager->flush();
     }
+    public function commentFactory($user, $createdAt)
+    {
+        
+    }
 }
