@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ArticleFormType extends AbstractType
 {
@@ -22,7 +23,19 @@ class ArticleFormType extends AbstractType
             ->add('title')
             ->add('image_url', FileType::class, [
                 'label' => 'Cover image',
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png'
+                        ]
+                    ]
+
+                    )
+                ]
             ])
             ->add('content',TextareaType::class, array(
                 'attr' => array(

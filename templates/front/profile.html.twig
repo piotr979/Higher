@@ -1,89 +1,101 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<!-- USER PANEL STARTS HERE -->
 
-<div class="container-xl mt-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Articles</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
+	<!-- USER PANEL STARTS HERE -->
 
-                <!-- FIRST TAB -->
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <h4 class="text-center my-4">Your articles</h4>
-                     
-                    <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Tags</th>
-                                <th scope="col">Date added</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            {% set id = 1 %}            
-            {% for article in articles %}
-            <tr>
-            <td>{{ id }} </td>
-                {% set id = id + 1 %}
-            <td>{{ article.title }}</td>
-            <td>{{ article.tagsId|map (tag => tag.tagTitle)| join(', ' ) }}
-                
-            </td>
-            <td>{{ article.createdAt | date("m/d/Y H:m") }}</td>
-        {% endfor %}
-                            
-                          
-                           
-                        </tbody>
-                    </table>
-                </div>
-                    <div class="text-center mb-4">
-                        <a class="btn btn-primary" href="{{ path('article-new') }}">Add article</a>
-                    </div>
-                </div>
+	<div class="container-xl mt-5">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Articles</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+					</li>
+				</ul>
+				<div
+					class="tab-content" id="myTabContent">
 
-                <!-- FIRST TAB ENDS HERE -->
+					<!-- FIRST TAB -->
+					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+						<h4 class="text-center my-4">Your articles</h4>
 
-                <!-- SECOND TAB -->
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Title</th>
+										<th scope="col">Tags</th>
+										<th scope="col">Date added</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% set id = 1 %}
+									{% for article in articles %}
+										{% set urlToArticle = url('article-edit', {'id': article.id} ) %}
+										<tr data-id="{{ article.id }}" data-path="{{ urlToArticle }}" class="article-table__link">
+											<td>
+                                                {{ id }}
+											</td>
+											{% set id = id + 1 %}
+											<td>{{ article.title|length > 30 ? article.title|slice(0,30) ~ '...' : article.title }}</td>
+											<td>{{ article.tagsId|map (tag => tag.tagTitle)| join(', ' ) }}
+											</td>
+											<td>{{ article.createdAt | date("m/d/Y H:m:s") }}</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+						<div class="text-center mb-4">
+							<a class="btn btn-primary" href="{{ path('article-new') }}">Add article</a>
+						</div>
+					</div>
 
-              
-                <div class="tab-pane fade col-12 col-lg-8 mx-lg-auto" 
-                    id="profile" 
-                    role="tabpanel" 
-                    aria-labelledby="profile-tab">
+					<!-- FIRST TAB ENDS HERE -->
 
-                    <div class="row mt-4 d-flex">
-                        <div class="col-12 col-md-4 d-flex justify-content-center">
-                            <img class="profile-photo mx-auto" 
-                            src="{{ asset(photo_url) }}" alt="">
-                        </div>
-                        <div class="col-12 col-md-8 mt-4 mt-md-0">
-                            <h2 class="text-center">{{ first_name }}&nbsp;{{ last_name }}</h2>
-                        </div>
-                    </div>
-                    <div class="mt-3 text-lg-center ">
-                        <div class="user-basics">
-                          
-                        </div>
-                    {{ form(userForm) }}
+					<!-- SECOND TAB -->
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- LOGIN FORM ENDS HERE -->
 
-{% endblock %}
+					<div class="tab-pane fade col-12 col-lg-8 mx-lg-auto" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+						<div class="row mt-4 d-flex">
+							<div class="col-12 col-md-4 d-flex justify-content-center">
+								<img class="profile-photo mx-auto" src="{{ asset(photo_url) }}" alt="">
+							</div>
+							<div class="col-12 col-md-8 mt-4 mt-md-0">
+								<h2 class="text-center">{{ first_name }}&nbsp;{{ last_name }}</h2>
+							</div>
+						</div>
+						<div class="mt-3 text-lg-center ">
+							<div class="user-basics"></div>
+							{{ form(userForm) }}
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- LOGIN FORM ENDS HERE -->
+
+	{% endblock %}
+
+	{% block javascripts %}
+		{{ parent() }}
+		<script>
+			// This little script creates anchor for table rows
+        const rows = document.querySelectorAll('.article-table__link');
+        rows.forEach(row => {
+            row.addEventListener('click', function (e) {
+            const dataSet = e.target.parentNode.dataset;
+            location.href = dataSet.path;
+        })
+});
+		</script>
+	{% endblock %}
+

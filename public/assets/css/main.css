@@ -22531,4 +22531,7 @@ p.display-4-slide {
 .hide-input {
   display: none;
 }
+.article-table__link {
+  cursor:pointer;
+}
 /*# sourceMappingURL=main.css.map */
