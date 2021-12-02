@@ -22534,4 +22534,32 @@ p.display-4-slide {
 .article-table__link {
   cursor:pointer;
 }
+.colors-input {
+  display: flex;
+  flex-direction: row;
+}
+.colors-input > * > label{
+  display: none;
+
+}
+#article_form_color {
+  display: flex;
+  flex-direction: row;
+}
+.tasku { display: none; }
 /*# sourceMappingURL=main.css.map */
+
+.form-check input[type="radio"]:checked label {
+  border: 2px solid #ccc;
+  transform: scale(1.5);
+
+  }
+ 
+  .form-check-label {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-right: 0.5rem;
+      transition: transform 0.4s;
+  
+  }

@@ -4,36 +4,10 @@
 <div class="container mt-4 mb-4">
     <div class="row justify-content-md-center">
       <div class="col-md-12 col-lg-8">
-        <h1 class="h2 mb-4 text-center">New article</h1>
+        <h1 class="h2 mb-4 text-center">Edit article</h1>
 
-        <!-- FORM STARTS HERE -->
-
-          {{ form_start(articleForm) }}
-          {{ form_row(articleForm.title) }}
-          {{ form_row(articleForm.image_url) }}
-          {{ form_row(articleForm.content) }}
+          {{ form(articleForm) }}
        
-        <div class="d-block btn-group color-picker--wrapper" role="group" aria-label="Basic radio toggle button group">
-            <label class="my-3 d-block" for="">Select group color</label>
-            {% for color in articleForm.color %} 
-            <label class="{{ 'color-picker color-picker-color-' ~ (color.vars.name + 1) }}">
-              <input type="radio" name="article_form[color]" 
-              id="{{ 'article_form_colors_' ~ color.vars.name }}" 
-              {% if (color.vars.name == 3 ) %}
-              checked="checked"
-              {% endif %}
-               value="{{ color.vars.name }}" />
-              <span class="color-picker-block"></span></label>
-            {% endfor %}
-           
-        </div>
-        
-        {{ form_end(articleForm) }}
-        <!-- COLOR PICKER ENDS HERE -->
-
-   
-
-        <!-- FORM ENDS HERE -->
       </div>
     </div>
   </div>
@@ -49,20 +23,3 @@
 }}
 
 {% endblock %}
-
-
- {# <label class="color-picker color-picker-color-1">
-            <input type="radio" name="color" id="color-picker-color-1" checked="checked" value="red" />
-            <span class="color-picker-block"></span></label>
-            
-            <label class="color-picker color-picker-color-2">
-            <input type="radio" name="color" id="color-picker-color-2" value="blue" />
-            <span class="color-picker-block"></span></label>
-            
-            <label class="color-picker color-picker-color-3">
-            <input type="radio" name="color" id="color-picker-color-3" value="green" />
-            <span class="color-picker-block"></span></label>
-            
-            <label class="color-picker color-picker-color-4">
-            <input type="radio" name="color" id="color-picker-color-4" value="red" />
-            <span class="color-picker-block"></span></label> #}

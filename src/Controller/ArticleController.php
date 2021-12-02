@@ -79,11 +79,45 @@ class ArticleController extends AbstractController
      ******************************/
 
      #[Route('/article-edit/{id}', name: "article-edit")]
-     public function editArticle(int $id) {
+     public function editArticle(int $id, Request $request) {
+
+        // Check if this id's article owns user
+        $currentUserId = $this->getUser()->getId();
 
         $repo = $this->getDoctrine()->getRepository(Article::class);
         $article = $repo->find($id);
-        $articleForm = $this->createForm(ArticleFormType::class);
+        if ($currentUserId != $article->getUser()->getId()) {
+          echo ("Wrong user. Access denied");exit;  
+        }
+        $articleForm = $this->createForm(ArticleFormType::class, $data = null, array(
+            'id' => $id
+        ));
+        $articleForm->handleRequest($request);
+       
+        if ($articleForm->isSubmitted() && $articleForm->isValid()) {
+          
+            $articleEdited = $articleForm->getData();
+            $article->setTitle($articleEdited->getTitle());
+            $article->setContent($articleEdited->getContent());
+            $article->setColor($articleEdited->getColor());
+            if ($articleEdited->getImageUrl()) {
+                $article->setImageUrl($articleEdited->getImageUrl());
+            }
+            $tags = $article->getTagsId();
+            foreach($article->getTagsId() as $tag ) {
+            $article->removeTagsId($tag);
+            }
+            foreach($articleEdited->getTagsId() as $tag) {
+                $article->addTagsId($tag);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+            return $this->redirect($this->generateUrl('profile'));
+
+
+           
+        }
         return $this->render('front/article-edit.html.twig', [
             'article' => $article,
             'articleForm' => $articleForm->createView()

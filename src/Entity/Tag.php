@@ -22,10 +22,10 @@ class Tag
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $tag_title;
+    private $tagTitle;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="tags_id")
+     * @ORM\ManyToMany(targetEntity=Article::class)
      */
     private $articles;
 
@@ -41,12 +41,12 @@ class Tag
 
     public function getTagTitle(): ?string
     {
-        return ucfirst($this->tag_title);
+        return ucfirst($this->tagTitle);
     }
 
-    public function setTagTitle(string $tag_title): self
+    public function setTagTitle(string $tagTitle): self
     {
-        $this->tag_title = $tag_title;
+        $this->tagTitle = $tagTitle;
 
         return $this;
     }
