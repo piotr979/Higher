@@ -24,8 +24,18 @@ class FrontController extends AbstractController
     #[Route('/', name: 'main')]
     public function index(): Response
     {
+        $articlesRepo = $this->getDoctrine()->getRepository(Article::class);
+        $tags = $articlesRepo->getMostPopularTags();
+        $bestUsers = $articlesRepo->getAuthorsByNumberOfArticles();
+        $mostPopularTags = $articlesRepo->getMostPopularTags();
+        $latestArticles = $articlesRepo->getLatestArticles();
+        dump($latestArticles);exit;
+        return $this->render('front/index.html.twig', [
+            'bestUsers' => $bestUsers,
+            'mostPopularTags' => $mostPopularTags,
+            'latestArticles' => $latestArticles
 
-        return $this->render('front/index.html.twig');
+        ]);
     }
     
      /** ****************************
@@ -67,6 +77,7 @@ class FrontController extends AbstractController
           if ($userUpdatedData['last_name'] != '') {
               $user->setLastName($userUpdatedData['last_name']);
           }
+          $user->setBio($userUpdatedData['Bio']);
           $em->persist($user);
           $em->flush();
         } //: VALIDATION, UPDATING ENDS HERE

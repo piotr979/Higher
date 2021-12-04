@@ -63,6 +63,11 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $timeToRead;
+
     public function __construct()
     {
         $this->tagsId = new ArrayCollection();
@@ -205,6 +210,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTimeToRead(): ?int
+    {
+        return $this->timeToRead;
+    }
+
+    public function setTimeToRead(int $timeToRead): self
+    {
+        $this->timeToRead = $timeToRead;
 
         return $this;
     }

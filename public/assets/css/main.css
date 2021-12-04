@@ -22563,3 +22563,7 @@ p.display-4-slide {
       transition: transform 0.4s;
   
   }
+  .small-custom {
+    font-size: 0.8rem;
+    color:rgba(130, 138, 145, 1);
+  }

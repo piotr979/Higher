@@ -7,9 +7,15 @@
         <h1 class="h2 mb-4 text-center">New article</h1>
 
         <!-- FORM STARTS HERE -->
-
-        {{ form(articleForm) }} 
-        
+        {{ form_start(articleForm) }}
+        {{ form_row(articleForm.title) }}
+        <p>Selected image: </p>
+        {{ form_row(articleForm.image_url) }}
+        {{ form_row(articleForm.content) }}
+        {{ form_row(articleForm.color) }}
+        {{ form_row(articleForm.tags_id) }}
+        {{ form_row(articleForm.submit) }}
+        {{ form_end(articleForm) }}
         <!-- COLOR PICKER ENDS HERE -->
 
         <!-- FORM ENDS HERE -->

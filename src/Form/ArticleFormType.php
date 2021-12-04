@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints\File;
 use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class ArticleFormType extends AbstractType
 {
@@ -53,7 +54,6 @@ class ArticleFormType extends AbstractType
             ->add('image_url', FileType::class, [
                 'label' => 'Cover image',
                 'required' => false,
-                'data' => $articleData->getImageUrl(),
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -76,7 +76,7 @@ class ArticleFormType extends AbstractType
                 'color',
                 ColorType::class,
                 [
-                    'data' => $articleData->getColor() ?? '#00FF00',
+                    'data' => ($articleData->getColor() ?? '#00FF00'),
                     'label' => 'Select accent color'
                 ]
             )
@@ -88,9 +88,7 @@ class ArticleFormType extends AbstractType
                     'choice_label' => 'tag_title',
                     'multiple' => true
                 ])
-            ->add('submit', SubmitType::class)
-                    
-        ;
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -85,6 +85,7 @@ class ArticleController extends AbstractController
         $currentUserId = $this->getUser()->getId();
 
         $repo = $this->getDoctrine()->getRepository(Article::class);
+
         $article = $repo->find($id);
         if ($currentUserId != $article->getUser()->getId()) {
           echo ("Wrong user. Access denied");exit;  
@@ -100,9 +101,21 @@ class ArticleController extends AbstractController
             $article->setTitle($articleEdited->getTitle());
             $article->setContent($articleEdited->getContent());
             $article->setColor($articleEdited->getColor());
-            if ($articleEdited->getImageUrl()) {
-                $article->setImageUrl($articleEdited->getImageUrl());
-            }
+
+            $coverImage = $articleForm->get('image_url')->getData();
+
+            if ($coverImage) {
+                $pathForUploads = $this->getParameter('covers_dir');
+                try {
+                $originalFilename = pathInfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
+                $filename = $originalFilename . md5(uniqid()) . '.' . $coverImage->guessExtension();
+                $coverImage->move($pathForUploads, $filename);
+                
+                $article->setImageUrl($pathForUploads . '/' . $filename);
+                } catch (FileException $e) {
+                  echo "error";exit;
+                }
+             } 
             $tags = $article->getTagsId();
             foreach($article->getTagsId() as $tag ) {
             $article->removeTagsId($tag);
@@ -114,8 +127,6 @@ class ArticleController extends AbstractController
             $em->persist($article);
             $em->flush();
             return $this->redirect($this->generateUrl('profile'));
-
-
            
         }
         return $this->render('front/article-edit.html.twig', [
@@ -123,4 +134,18 @@ class ArticleController extends AbstractController
             'articleForm' => $articleForm->createView()
         ]);
      }
+
+      /** ****************************
+     *  REMOVE ARTICLE ROUTE 
+     ******************************/
+    #[Route('/remove/{id}', name:'remove')]
+    public function remove($id)
+    {
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
+
+        return $this->redirectToRoute('profile');
+    }
 }
