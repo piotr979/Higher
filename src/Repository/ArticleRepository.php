@@ -26,10 +26,10 @@ class ArticleRepository extends ServiceEntityRepository
      */
     public function getAuthorsByNumberOfArticles(): array
     {
-    /**  mysql query:
-    * SELECT first_name, last_name, COUNT(article.user_id) AS total FROM a
-    * INNER JOIN user ON article.user_id = user.id GROUP BY 
-    * article.user_id ORDER BY total DESC;
+    /*
+     SELECT first_name, last_name, COUNT(article.user_id) AS total FROM a
+     INNER JOIN user ON article.user_id = user.id GROUP BY 
+     article.user_id ORDER BY total DESC;
     */
         $qb = $this->createQueryBuilder('a')
         ->select('u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
@@ -43,7 +43,8 @@ class ArticleRepository extends ServiceEntityRepository
     }
     public function getMostPopularTags()
     {
-    // SELECT tag_id, COUNT(*) as c FROM article_tag GROUP BY tag_id ORDER BY c DESC; 
+    // SELECT tag_id, COUNT(*) as c FROM article_tag GROUP BY tag_id ORDER BY c DESC;
+
         $qb = $this->createQueryBuilder('a')
        ->innerJoin('a.tagsId', 't')
        ->select('t.id, t.tagTitle, count(t.id) AS amount')
@@ -61,33 +62,31 @@ class ArticleRepository extends ServiceEntityRepository
            INNER JOIN article_tag ON article.id = article_tag.article_id 
            INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id; 
         */
-        $connection = $this->getEntityManager()->getConnection();
+
+       $connection = $this->getEntityManager()->getConnection();
        $stmt = $connection->query('SELECT color,title, content, image_url, 
-       time_to_read, created_at, GROUP_CONCAT(tag_title) AS tags FROM article 
+       time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
+       INNER JOIN user ON article.user_id = user.id
        INNER JOIN article_tag ON article.id = article_tag.article_id 
        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
+       
        $dataArray = array();
        $i = 0;
        while (($row = $stmt->fetchAssociative()) !== false) {
-       
         $dataArray[] = array(
-            array($row['title'], $row['content'],
-                  $row['image_url'],$row['color'],
-                  $row['time_to_read'], $row['created_at'],
-                  $row['tags'])
+            array('title' => $row['title'],
+                  'content' => $row['content'],
+                  'image' => $row['image_url'],
+                  'color' => $row['color'],
+                  'time' => $row['time_to_read'],
+                  'date' => $row['created_at'],
+                  'tags' => $row['tags'],
+                  'aFirstName' => $row['first_name'],
+                  'aLastName' => $row['last_name'])
         );
 
     };
-    dump($dataArray); die;
-
-        // $qb = $this->createQueryBuilder('a')
-        //    ->innerJoin('a.tagsId', 't')
-        //    ->select('a.color, a.title')
-        //    ->groupBy('a.id');
-
-        // $query = $qb->getQuery();
-        // return $query->execute();
-        
+    return $dataArray;
     }
     //  * @return Article[] Returns an array of Article objects
     //  */

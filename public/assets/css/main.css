@@ -11173,6 +11173,10 @@ textarea.form-control-lg {
   width: 125px;
   height: 125px;
   border-radius: 8px;
+  transition: all .4s;
+}
+.article-card:hover .article-card--image {
+  transform: scale(1.05);
 }
 
 .article-card--link {
@@ -11221,7 +11225,7 @@ label.color-picker:hover {
 .color-picker--wrapper input[type=radio] {
   display: none;
 }
-.color-picker--wrapper input[type=radio]:checked + span {
+.color-picker--wrapper input[type=radio]:checked + label.input-span {
   border: 2px solid #ccc;
   transform: scale(1.5);
 }
@@ -22566,4 +22570,19 @@ p.display-4-slide {
   .small-custom {
     font-size: 0.8rem;
     color:rgba(130, 138, 145, 1);
+  }
+  .hidden {
+    display: none !important;
+  }
+  .input-span {
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 30px;
+    height: 30px;
+    color: rgba(0,0,0,0);
+  }
+  .form-check {
+    position: relative;
   }

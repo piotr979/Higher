@@ -72,14 +72,23 @@ class ArticleFormType extends AbstractType
                     'class' => 'tinymce'
                 )
             ])
-            ->add(
-                'color',
-                ColorType::class,
-                [
-                    'data' => ($articleData->getColor() ?? '#00FF00'),
-                    'label' => 'Select accent color'
-                ]
-            )
+            ->add('color', ChoiceType::class, [
+                'expanded' => true,
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4
+                 ]
+            ])
+            // ->add(
+            //     'color',
+            //     ColorType::class,
+            //     [
+            //         'data' => ($articleData->getColor() ?? '#00FF00'),
+            //         'label' => 'Select accent color'
+            //     ]
+            // )
             ->add(
                 'tags_id', EntityType::class, [
                     'data' => $articleData->getTagsId(),

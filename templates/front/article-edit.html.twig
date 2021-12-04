@@ -6,36 +6,35 @@
       <div class="col-md-12 col-lg-8">
         <h1 class="h2 mb-4 text-center">Edit article</h1>
 
-          <!-- FORM STARTS HERE -->
-        
-        {{ form_start(articleForm) }}
-        {{ form_row(articleForm.title) }}
-       <div class="row">
-         <div class="col-12 col-md-8">
-          {{ form_row(articleForm.image_url) }}
-         </div>
-         <div class="col-12 col-md-4 ">
-           <p>Current image</p>
-           <img src="{{ asset('') }} " alt="">
-         </div>
-       </div>
-  
-        {{ form_row(articleForm.content) }}
-        {{ form_row(articleForm.color) }}
-        {{ form_row(articleForm.tags_id) }}
-        <div class="row">
-          <div class="col-1 me-4">
-            {{ form_row(articleForm.submit) }}
-            
-          </div>
-          <div class="col-10">
-          <a href="{{ path('remove', { "id": article.id }) }}" class="btn btn-danger">Delete article</a>
-          </div>
-        </div>
-       
-        {{ form_end(articleForm) }}
+          		<!-- FORM STARTS HERE -->
 
-        <!-- FORM ENDS HERE -->
+				{{ form_start(articleForm) }}
+				{{ form_row(articleForm.title) }}
+				<p>Selected image:
+				</p>
+				{{ form_row(articleForm.image_url) }}
+				{{ form_row(articleForm.content) }}
+
+        <!-- COLOR PICKER STARTS HERE -->
+				<label class="my-3 d-block" for="">Select accent color</label>
+				<div class="d-flex color-picker--wrapper mb-4">
+					{% block choice_widget %}
+						{% for child in articleForm.color %}
+							<label class="{{ 'me-3 color-picker color-picker-color-' ~ child.vars.value }}">
+								{{- form_widget(child, { 'label_attr' : {
+              'class': 'input-span'
+            } })-}}
+							</label>
+						{% endfor %}
+					{% endblock choice_widget %}
+				</div>
+          <!-- COLOR PICKER STARTS HERE -->
+
+				{{ form_row(articleForm.tags_id) }}
+				{{ form_row(articleForm.submit) }}
+				{{ form_end(articleForm) }}
+
+				<!-- FORM ENDS HERE -->
        
       </div>
     </div>

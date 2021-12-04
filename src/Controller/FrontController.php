@@ -29,7 +29,7 @@ class FrontController extends AbstractController
         $bestUsers = $articlesRepo->getAuthorsByNumberOfArticles();
         $mostPopularTags = $articlesRepo->getMostPopularTags();
         $latestArticles = $articlesRepo->getLatestArticles();
-        dump($latestArticles);exit;
+        //dump($latestArticles);exit;
         return $this->render('front/index.html.twig', [
             'bestUsers' => $bestUsers,
             'mostPopularTags' => $mostPopularTags,

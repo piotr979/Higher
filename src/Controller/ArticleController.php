@@ -21,7 +21,11 @@ class ArticleController extends AbstractController
     #[Route('/articles', name: 'articles')]
     public function articles()
     {
-        return new Response("articles");
+        $repo = $this->getDoctrine()->getRepository(Article::class);
+        $articles = $repo->getLatestArticles();
+        return $this->render('front/articles.html.twig', [
+            'articles' => $articles
+        ]);
     }
 
      /** ****************************

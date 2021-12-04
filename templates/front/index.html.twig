@@ -70,16 +70,17 @@ class="container-fluid slider-full">
    
      <!-- ARTICLES GROUP STARTS HERE -->
 
-     <div class="container-xl mt-5">
+     <div class="container-xl my-5">
         <h4 class="my-4">Latest articles</h4>
       <div class="row">
         
       
         <!-- ARTICLE CARD -->
-        {% for article in latestArticles|slice(0,4) %}
+        {% for key,value in latestArticles|slice(0,4) %}
+        {% for article in value %}
         <div class="col-md-6 col-12">
           <a class="article-card--link" href="">
-          <div class="article-card border-color-1 pt-2 ps-2 hover-shadow">
+          <div class="{{ 'article-card pt-2 ps-2 hover-shadow border-color-' ~ article.color }}">
             <div class="row">
               <div class="col-7 col-lg-8">
                 <h5 class="mt-2">{{ article.title|length > 30 ? article.title|slice(0,30) ~ "..." : article.title }}</h5>
@@ -87,16 +88,17 @@ class="container-fluid slider-full">
                 <p class="text-primary article-card--author">By {{ article.aFirstName }}&nbsp;{{ article.aLastName }}</p>
               </div>
               <div class="col-5 col-lg-4">
-                <img class="article-card--image article-border-2 mt-4 shadow" src="images/articles/zhang-kaiyv-dhiOkqjewAM-unsplash.jpg" alt="">
+                <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image) }}" alt="">
               </div>
             </div>
             <div class="row">
               <small class="">23. Oct / 3 mins read</small>
-                <p class="pt-2 article-card--tags">Computing, Electronics, Shopping</p>
+                <p class="pt-2 article-card--tags">{{ article.tags }}</p>
             </div>
           </div>
         </a>
         </div>
+        {% endfor %}
         {% endfor %}
       </div>
     </div>

@@ -48,7 +48,7 @@ class Article
     private $tagsId;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $color;
 
@@ -151,12 +151,12 @@ class Article
         return $this;
     }
 
-    public function getColor(): ?string
+    public function getColor(): ?int
     {
         return $this->color;
     }
 
-    public function setColor(string $color): self
+    public function setColor(int $color): self
     {
         $this->color = $color;
 
