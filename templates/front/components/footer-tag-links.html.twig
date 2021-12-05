@@ -1,0 +1,5 @@
+<ul class="list-unstyled mt-4">
+    {% for tag in tags|slice(0,5) %}
+   <li class="mt-2"><a class="text-secondary" href="#">{{ tag.tagTitle }}</a></li> 
+   {% endfor %}
+  </ul>

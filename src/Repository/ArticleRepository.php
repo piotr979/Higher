@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
  * @method Article|null findOneBy(array $criteria, array $orderBy = null)
@@ -17,9 +17,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Article::class);
+        $this->paginator = $paginator;
     }
  /**
      * Get two the most popular authors
@@ -64,17 +67,17 @@ class ArticleRepository extends ServiceEntityRepository
         */
 
        $connection = $this->getEntityManager()->getConnection();
-       $stmt = $connection->query('SELECT color,title, content, image_url, 
+       $stmt = $connection->query('SELECT article.id, color,title, content, image_url, 
        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
        INNER JOIN user ON article.user_id = user.id
        INNER JOIN article_tag ON article.id = article_tag.article_id 
        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
        
        $dataArray = array();
-       $i = 0;
        while (($row = $stmt->fetchAssociative()) !== false) {
         $dataArray[] = array(
-            array('title' => $row['title'],
+            array('id' => $row['id'],
+                'title' => $row['title'],
                   'content' => $row['content'],
                   'image' => $row['image_url'],
                   'color' => $row['color'],
@@ -88,6 +91,41 @@ class ArticleRepository extends ServiceEntityRepository
     };
     return $dataArray;
     }
+    public function findAllPaginated($page)
+    {
+        /* USE higher;
+           SELECT color,title, GROUP_CONCAT(tag_title) FROM article 
+           INNER JOIN article_tag ON article.id = article_tag.article_id 
+           INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id; 
+        */
+
+        $connection = $this->getEntityManager()->getConnection();
+        $stmt = $connection->query('SELECT article.id, color,title, content, image_url, 
+        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
+        INNER JOIN user ON article.user_id = user.id
+        INNER JOIN article_tag ON article.id = article_tag.article_id 
+        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
+        
+        $dataArray = array();
+        while (($row = $stmt->fetchAssociative()) !== false) {
+         $dataArray[] = array(
+             array('id' => $row['id'],
+                 'title' => $row['title'],
+                   'content' => $row['content'],
+                   'image' => $row['image_url'],
+                   'color' => $row['color'],
+                   'time' => $row['time_to_read'],
+                   'date' => $row['created_at'],
+                   'tags' => $row['tags'],
+                   'aFirstName' => $row['first_name'],
+                   'aLastName' => $row['last_name'])
+         );
+        }
+        $pagination = $this->paginator->paginate($dataArray, $page, 5);
+        return $pagination;
+        
+    }
+}
     //  * @return Article[] Returns an array of Article objects
     //  */
     /*
@@ -118,4 +156,4 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-}
+

@@ -79,7 +79,8 @@ class="container-fluid slider-full">
         {% for key,value in latestArticles|slice(0,4) %}
         {% for article in value %}
         <div class="col-md-6 col-12">
-          <a class="article-card--link" href="">
+          <a class="article-card--link" href="{{ path('article-single',{
+            id: article.id  } )}} ">
           <div class="{{ 'article-card pt-2 ps-2 hover-shadow border-color-' ~ article.color }}">
             <div class="row">
               <div class="col-7 col-lg-8">
@@ -92,7 +93,15 @@ class="container-fluid slider-full">
               </div>
             </div>
             <div class="row">
-              <small class="">23. Oct / 3 mins read</small>
+              <small class=""><span>{{ article.date|date('d/m/Y') }} </span>
+            
+                {% if article.time == 1 %}
+                <span>1 min read</span>
+                {% else %}
+                <span>{{ article.time ~ " mins read " }}</span>
+
+              </small>
+               {% endif %}
                 <p class="pt-2 article-card--tags">{{ article.tags }}</p>
             </div>
           </div>
@@ -100,10 +109,43 @@ class="container-fluid slider-full">
         </div>
         {% endfor %}
         {% endfor %}
+        <!-- ARTICLE CARD ENDS HERE -->
+
       </div>
     </div>
   
 
       <!-- ARTICLES GROUP ENDS HERE -->
+
+        <!-- ARTICLE MINICARDS START HERE -->
+<div class="container-xl mb-5">
+  <div class="row justify-content-center">
+
+    {% for key,value in latestArticles|slice(4,7) %}
+     {% for article in value %}
+
+    <div class="col-12 col-sm-6 col-md-4">
+      <div class="card h-100 justify-self-center">
+        <div class="card-header">
+          <strong>{{ article.aFirstName }}&nbsp;{{ article.aLastName }} </strong>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <p class="card-text">Try this new way of adding adding ingredients together.</p>
+          <div class="mt-auto">
+            <a href="#" class="btn btn-primary">Read now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     {% endfor %}
+    {% endfor %}
+    
+
+  </div>
+</div>
+
+<!-- ARTICLE MINICARDS END HERE -->
 
 {% endblock %}

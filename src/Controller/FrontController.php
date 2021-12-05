@@ -25,11 +25,9 @@ class FrontController extends AbstractController
     public function index(): Response
     {
         $articlesRepo = $this->getDoctrine()->getRepository(Article::class);
-        $tags = $articlesRepo->getMostPopularTags();
         $bestUsers = $articlesRepo->getAuthorsByNumberOfArticles();
         $mostPopularTags = $articlesRepo->getMostPopularTags();
         $latestArticles = $articlesRepo->getLatestArticles();
-        //dump($latestArticles);exit;
         return $this->render('front/index.html.twig', [
             'bestUsers' => $bestUsers,
             'mostPopularTags' => $mostPopularTags,
@@ -95,6 +93,18 @@ class FrontController extends AbstractController
             'bio' => $user->getBio(),
             'userForm' => $userForm->createView()
 
+        ]);
+    }
+
+     /** ****************************
+     *  FOOTER TAG LINKS ROUTE 
+     ******************************/
+    public function getMostPopularTags()
+    {
+        $articlesRepo = $this->getDoctrine()->getRepository(Article::class);
+        $tags = $articlesRepo->getMostPopularTags();
+        return $this->render('front/components/footer-tag-links.html.twig', [
+            'tags' => $tags
         ]);
     }
 }

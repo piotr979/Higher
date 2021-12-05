@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+{{ include('front/components/motionless-hero.html' ) }}
+
+	<div class="container">
+		<div class="row mt-4">
+			<img src="{{ asset(article.imageUrl) }}" alt="">
+		</div>
+
+		<div class="row my-4">
+			<h2>{{ article.title }}</h2>
+		</div>
+
+		<div class="row mb-4">
+            {{ article.content|raw }}
+        </div>
+	</div>
+
+{% endblock %}

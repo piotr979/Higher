@@ -18,16 +18,31 @@ class ArticleController extends AbstractController
      *  ARTICLES LIST ROUTE 
      ******************************/
 
-    #[Route('/articles', name: 'articles')]
-    public function articles()
+    #[Route('/articles/{page}', name: 'articles')]
+    public function articles(int $page = 1)
     {
         $repo = $this->getDoctrine()->getRepository(Article::class);
-        $articles = $repo->getLatestArticles();
+        $articles = $repo->findAllPaginated($page);
+        $mostPopularTags = $repo->getMostPopularTags();
         return $this->render('front/articles.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
+            'mostPopularTags' => $mostPopularTags
         ]);
     }
-
+    /** ****************************
+     *  SINGLE ARTICLE ROUTE 
+     ******************************/
+    #[Route('article-single/{id}', name: 'article-single')]
+    public function singleArticle($id)
+    {
+        $repo = $this->getDoctrine()->getRepository(Article::class);
+        $mostPopularTags = $repo->getMostPopularTags();
+        $article = $repo->find($id);
+        return $this->render('front/article-single.html.twig', [
+            'article' => $article,
+            'mostPopularTags' => $mostPopularTags
+        ]);
+    }
      /** ****************************
      *  NEW ARTICLE ROUTE 
      ******************************/
