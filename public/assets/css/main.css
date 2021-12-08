@@ -22586,3 +22586,8 @@ p.display-4-slide {
   .form-check {
     position: relative;
   }
+  .article-cover {
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
+  }

@@ -9,7 +9,8 @@ use App\Entity\Article;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ArticleFormType;
-
+use App\Form\CommentFormType;
+use App\Entity\Comment;
 #[Route('article')]
 
 class ArticleController extends AbstractController
@@ -32,15 +33,39 @@ class ArticleController extends AbstractController
     /** ****************************
      *  SINGLE ARTICLE ROUTE 
      ******************************/
-    #[Route('article-single/{id}', name: 'article-single')]
-    public function singleArticle($id)
+    #[Route('/article-single/{id}', name: 'article-single')]
+    public function singleArticle($id, Request $request)
     {
         $repo = $this->getDoctrine()->getRepository(Article::class);
         $mostPopularTags = $repo->getMostPopularTags();
-        $article = $repo->find($id);
+        $articleData = $repo->getAllArticleData($id);
+        // $article = $repo->find($id);
+        // $comments = $article->getComments();
+        // dump($comments);
+        // $commentsRepo = $this->getDoctrine()->getRepository(Comment::class);
+        // $commentsWithUsers = $commentsRepo->getCommentWithUsersData($comments);
+
+        $commentForm = $this->createForm(CommentFormType::class);
+        $commentForm->handleRequest($request);
+        
+        if ($commentForm->isSubmitted() && $commentForm->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $data = $commentForm->getData();
+            $comment = new Comment();
+            $comment->setContent($data->getContent());
+            $comment->setUser($this->getUser());
+            $comment->setArticle($article);
+            $em->persist($comment);
+            $em->flush();
+           
+            
+        }
+      
         return $this->render('front/article-single.html.twig', [
             'article' => $article,
-            'mostPopularTags' => $mostPopularTags
+            'mostPopularTags' => $mostPopularTags,
+            'commentForm' => $commentForm->createView()
         ]);
     }
      /** ****************************

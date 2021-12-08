@@ -2,34 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Comment;
+use App\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
- * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
- * @method Comment[]    findAll()
- * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Contact|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Contact|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Contact[]    findAll()
+ * @method Contact[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommentRepository extends ServiceEntityRepository
+class ContactRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Comment::class);
+        parent::__construct($registry, Contact::class);
     }
 
-    public function getCommentWithUsersData($comments)
-    {
-        $qb = $this->createQueryBuilder('c')
-        ->select('c.user_id, u.first_name, content')
-        ->innerJoin('c.user_id','u');
-        $query = $qb->getQuery();
-        dump($query);exit;
-    } 
-
     // /**
-    //  * @return Comment[] Returns an array of Comment objects
+    //  * @return Contact[] Returns an array of Contact objects
     //  */
     /*
     public function findByExampleField($value)
@@ -46,7 +37,7 @@ class CommentRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Comment
+    public function findOneBySomeField($value): ?Contact
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

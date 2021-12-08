@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Tag;
 use App\Form\ArticleFormType;
+use App\Form\ContactType;
 use App\Form\ProfileFormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,7 +96,30 @@ class FrontController extends AbstractController
 
         ]);
     }
+    /******************************
+     *  SUBSCRIPTION PAGE ROUTE 
+     ******************************/
+    #[Route('/subscription', name: 'subscription')]
+    public function subscription()
+    {
+        return $this->render('/front/subscription.html.twig');
+    }
+     /******************************
+     *  CONTACT PAGE ROUTE 
+     ******************************/
+    #[Route('/contact', name: 'contact')]
+    public function contact()
+    {
+        $contactForm = $this->createForm(ContactType::class);
 
+        if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+            dump($contactForm);
+        }
+        return $this->render('/front/contact.html.twig', [
+            'contactForm' => $contactForm->createView()
+        ]);
+    }
+    
      /** ****************************
      *  FOOTER TAG LINKS ROUTE 
      ******************************/

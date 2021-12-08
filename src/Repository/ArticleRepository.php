@@ -125,6 +125,20 @@ class ArticleRepository extends ServiceEntityRepository
         return $pagination;
         
     }
+    public function getAllArticleData($id)
+    {
+        $qb = $this->createQueryBuilder('a')
+                    ->select('a.content AS articleContent, a.imageUrl, a.title, a.color, a.createdAt,
+                        c.content, u.first_name' )
+                    ->innerJoin('a.comments', 'c')
+                    ->innerJoin('c.user', 'u');
+        $query = $qb->getQuery();
+        $data = $query->execute();
+        dump($data);exit;
+        // Prepare article with comments and users data which commented
+        $array['articleContent'] = $data[0]['content'];
+        dump($array);exit;
+    }
 }
     //  * @return Article[] Returns an array of Article objects
     //  */
