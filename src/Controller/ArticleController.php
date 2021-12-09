@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\ArticleFormType;
 use App\Form\CommentFormType;
 use App\Entity\Comment;
+use App\Entity\User;
+
 #[Route('article')]
 
 class ArticleController extends AbstractController
@@ -36,10 +38,10 @@ class ArticleController extends AbstractController
     #[Route('/article-single/{id}', name: 'article-single')]
     public function singleArticle($id, Request $request)
     {
-        $repo = $this->getDoctrine()->getRepository(Article::class);
-        $mostPopularTags = $repo->getMostPopularTags();
-        $articleData = $repo->getAllArticleData($id);
-        $article = $repo->find($id);
+        $articleRepo = $this->getDoctrine()->getRepository(Article::class);
+        $mostPopularTags = $articleRepo->getMostPopularTags();
+   //     $articleData = $repo->getAllArticleData($id);
+        $article = $articleRepo->find($id);
         // $article = $repo->find($id);
         // $comments = $article->getComments();
         // dump($comments);
@@ -54,6 +56,8 @@ class ArticleController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $data = $commentForm->getData();
             $comment = new Comment();
+            
+
             $comment->setContent($data->getContent());
             $comment->setUser($this->getUser());
             $comment->setArticle($article);
@@ -62,9 +66,12 @@ class ArticleController extends AbstractController
            
             
         }
-      
-        return $this->render('front/article-single.html.twig', [
-            'article' => $articleData,
+     // dump($article);
+     $usero = new User();
+            $usero->setFirstName("usero");
+              return $this->render('front/article-single.html.twig', [
+            'article' => $article,
+            'usero' => $usero,
             'mostPopularTags' => $mostPopularTags,
             'commentForm' => $commentForm->createView()
         ]);

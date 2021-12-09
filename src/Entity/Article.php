@@ -21,7 +21,7 @@ class Article
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

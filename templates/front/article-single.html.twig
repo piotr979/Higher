@@ -22,15 +22,20 @@
 		<div class="row pb-4">
 			<h2>Comments</h2>
 		</div>
+		
 		{% for comment in article.comments %}
 		
 		<div class="row comment">
+		
+			<div class="col-3 col-lg-1 mb-5">
 			
-			<div class="col-2 mb-5">
-				<img class="profile-photo" src="{{ asset('uploads/users/christian-buehner-DItYlc26zVI-unsplash.jpg') }}" alt="user photo">
+				<img class="comment-photo" src="{{ asset(comment.user.photoUrl) }}" alt="user photo">
 			</div>
-			<div class="col-6">
-				<h5> wrote - 12.07.2021</h5>
+			<div class="col-9 col-lg-6">
+			
+				<h5> {{comment.user.firstName}}&nbsp; {{comment.user.lastName}} wrote on {{ comment.createdAt|date('d-M-Y') }}</h5>
+			
+			
 				<p>{{ comment.content }}
 				</p>
 			</div>
