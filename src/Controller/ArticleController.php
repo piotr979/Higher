@@ -39,6 +39,7 @@ class ArticleController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Article::class);
         $mostPopularTags = $repo->getMostPopularTags();
         $articleData = $repo->getAllArticleData($id);
+        $article = $repo->find($id);
         // $article = $repo->find($id);
         // $comments = $article->getComments();
         // dump($comments);
@@ -63,7 +64,7 @@ class ArticleController extends AbstractController
         }
       
         return $this->render('front/article-single.html.twig', [
-            'article' => $article,
+            'article' => $articleData,
             'mostPopularTags' => $mostPopularTags,
             'commentForm' => $commentForm->createView()
         ]);

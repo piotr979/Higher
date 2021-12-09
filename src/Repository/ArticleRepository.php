@@ -107,6 +107,9 @@ class ArticleRepository extends ServiceEntityRepository
         INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
         
         $dataArray = array();
+        
+        // TODO: Improve code quality (spread operator?)
+
         while (($row = $stmt->fetchAssociative()) !== false) {
          $dataArray[] = array(
              array('id' => $row['id'],
@@ -127,18 +130,69 @@ class ArticleRepository extends ServiceEntityRepository
     }
     public function getAllArticleData($id)
     {
-        $qb = $this->createQueryBuilder('a')
-                    ->select('a.content AS articleContent, a.imageUrl, a.title, a.color, a.createdAt,
-                        c.content, u.first_name' )
-                    ->innerJoin('a.comments', 'c')
-                    ->innerJoin('c.user', 'u');
-        $query = $qb->getQuery();
-        $data = $query->execute();
-        dump($data);exit;
-        // Prepare article with comments and users data which commented
-        $array['articleContent'] = $data[0]['content'];
-        dump($array);exit;
+        // JOINS:
+        // 1.FIRST IS ARTICLE
+        // 2.THEN ARTICLE AUTHOR (USER)
+        // 3.NEXT ARE ARTICLE'S COMMENTS
+        // 4.AND COMMENTS AUTHORS 
+        // aA prefix stands for article Author
+        // cA stands for comment Author
+
+        $conn = $this->getEntityManager()->getConnection();
+        $query = ('
+            SELECT  a.content AS articleContent, a.image_url AS articleCover, a.title, a.color, a.created_at,
+            articleAuthor.first_name AS aAFirstName, articleAuthor.last_name AS aALastName,
+            articleAuthor.photo_url AS authorPhoto,
+            GROUP_CONCAT(commentAuthor.first_name SEPARATOR 0x1E ) AS caFirstName, 
+            GROUP_CONCAT(commentAuthor.last_name SEPARATOR 0x1E) AS caLastName,
+            GROUP_CONCAT(commentAuthor.photo_url SEPARATOR 0x1E) AS caAuthorPhoto,
+            GROUP_CONCAT(comment.content SEPARATOR 0x1E) AS comments,
+            GROUP_CONCAT(comment.created_at SEPARATOR 0x1E) AS commentCreatedAt
+            FROM article AS a 
+            INNER JOIN user AS articleAuthor ON a.user_id = articleAuthor.id
+            INNER JOIN comment ON comment.article_id = a.id
+            INNER JOIN user AS commentAuthor ON comment.user_id = commentAuthor.id
+            WHERE a.id = :id
+            ');
+    
+          $stmt = $conn->prepare($query);
+          $result = $stmt->executeQuery(['id' => $id]);
+            $allData = [];
+
+            // TODO: Improve code quality (spread operator?)
+
+            while (($row = $result->fetchAssociative()) != false ) {
+                $allData[] = [
+                'articleContent' => $row['articleContent'],
+                'articleCover' => $row['articleCover'],
+                'articleTitle' => $row['title'],
+                'articleColor' => $row['color'],
+                'articleCreatedAt' => $row['created_at'],
+                'articleAuthorFirstName' => $row['aAFirstName'],
+                'articleAuthorLastName' => $row['aALastName'],
+                'articleAuthorPhoto' => $row['authorPhoto'],
+                'commentsArray' => [$this->explodeToArray("\x1E", $row['comments'])],
+                'commentsAuthorFirstNames' => [$this->explodeToArray("\x1E", $row['caFirstName'])],
+                'commentsAuthorLastNames' => [$this->explodeToArray("\x1E", $row['caLastName'])],
+                'commentsAuthorPhotos' => [$this->explodeToArray("\x1E", $row['caAuthorPhoto'])]
+                ]; 
+            }
+        return $allData;
+       
     }
+    /**
+     * Explodes text to array
+     * 
+     * @param $separator string  ASCII code (or anything else) to separate
+     * @param $text string text to explode
+     * 
+     * @return array 
+     */
+    private function explodeToArray(string $separator, string $text): array
+    {
+        return explode($separator, $text);
+    }
+   
 }
     //  * @return Article[] Returns an array of Article objects
     //  */
