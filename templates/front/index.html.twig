@@ -40,7 +40,7 @@ class="container-fluid slider-full">
                         <h5 class="card-title">{{ user.first_name }}&nbsp; {{ user.last_name }}</h5>
                         <p class="card-text">{{ user.bio }}</p>
                         <div class="mt-auto">
-                        <a href="#" class="btn btn-primary">See articles</a>
+                        <a href="{{ path('articles',{ 'authorId' : user.id }) }}" class="btn btn-primary">See articles</a>
                     </div>
                     </div>
                 </div>

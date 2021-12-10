@@ -35,7 +35,7 @@ class ArticleRepository extends ServiceEntityRepository
      article.user_id ORDER BY total DESC;
     */
         $qb = $this->createQueryBuilder('a')
-        ->select('u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
+        ->select('u.id, u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
             ->innerJoin('a.user','u')
             ->groupBy('a.user')
             ->orderBy('count(a.user)','DESC');
@@ -91,40 +91,51 @@ class ArticleRepository extends ServiceEntityRepository
     };
     return $dataArray;
     }
-    public function findAllPaginated($page, $sorting, $searchString)
+    public function findAllPaginated($page, $sorting, $tag,$authorId, $searchString)
     {
-        /* USE higher;
-           SELECT color,title, GROUP_CONCAT(tag_title) FROM article 
-           INNER JOIN article_tag ON article.id = article_tag.article_id 
-           INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id; 
-
-     SELECT article.id, color,title, content, image_url, 
-        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
-        INNER JOIN user ON article.user_id = user.id
-        INNER JOIN article_tag ON article.id = article_tag.article_id 
-        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id 
-      ORDER BY 
-     	(CASE WHEN color = 1 THEN created_AT END) DESC,
-      (CASE WHEN color = 2 THEN created_at END) ASC
-
-
-       
-       
-
-        */
-
         $conn = $this->getEntityManager()->getConnection();
-        
-        $qb = ("SELECT article.id, color,title, content, image_url, 
-        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
+     
+        $sqlTags = "SELECT article.id, color,title, content, image_url, 
+        time_to_read, created_at, first_name, last_name, tag_title AS tags FROM article
         INNER JOIN user ON article.user_id = user.id
         INNER JOIN article_tag ON article.id = article_tag.article_id 
-        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id 
-         ORDER BY 
+        INNER JOIN tag ON article_tag.tag_id = tag.id
+        WHERE tag.tag_title = :tagTitle
+        ";
+
+    $sqlFiltering = "SELECT article.id, color,title, content, image_url, 
+    time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article
+    INNER JOIN user ON article.user_id = user.id
+    INNER JOIN article_tag ON article.id = article_tag.article_id 
+    INNER JOIN tag ON article_tag.tag_id = tag.id
+    WHERE title LIKE CONCAT('%' , :searchString , '%') 
+                OR content LIKE CONCAT('%' , :searchString , '%')
+                GROUP BY article.id ORDER BY 
      	    (CASE WHEN :sorting = 'newest' THEN created_at END) DESC,
-            (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC; ");
-        $stmt = $conn->prepare($qb);
-        $result = $stmt->executeQuery(['sorting' => $sorting]);
+            (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC";
+        
+    $sqlByAuthor = "SELECT article.id, color,title, content, image_url, 
+        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article
+        INNER JOIN user ON article.user_id = user.id
+        INNER JOIN article_tag ON article.id = article_tag.article_id 
+        INNER JOIN tag ON article_tag.tag_id = tag.id
+        WHERE user.id = :authorId
+        GROUP BY article.id ORDER BY created_at DESC
+        ";
+        if  ($authorId !='0') {
+            $queryParams = ['authorId' => $authorId ];
+            $stmt = $conn->prepare($sqlByAuthor);
+        }
+        else if ($tag =='notag' || $tag == '') {
+            $queryParams = ['sorting' => $sorting,
+            'searchString' => $searchString];
+            $stmt = $conn->prepare($sqlFiltering);
+        } else {
+            $queryParams = [ 'tagTitle' => $tag ];
+            $stmt = $conn->prepare($sqlTags);
+        }
+      
+        $result = $stmt->executeQuery($queryParams);
       
         
         // TODO: Improve code quality (spread operator?)
@@ -143,7 +154,11 @@ class ArticleRepository extends ServiceEntityRepository
                    'aLastName' => $row['last_name'])
          );
         }
+        if ( isset($dataArray)) {
         $pagination = $this->paginator->paginate($dataArray, $page, 5);
+        } else {
+           return null;
+        }
         return $pagination;
         
     }

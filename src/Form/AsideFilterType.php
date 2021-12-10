@@ -13,7 +13,7 @@ class AsideFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-       
+    
         $builder
             ->add('sortBy', ChoiceType::class, [
                 'choices' => [
@@ -24,7 +24,8 @@ class AsideFilterType extends AbstractType
                 'data' => $options['sorting']
             ])
             ->add('search', SearchType::class, [
-                'required' => false
+                'required' => false,
+                'data' => $options['searchString']
             ])
             ->add('apply', SubmitType::class, [
                 'label' => 'Apply filters'
@@ -35,7 +36,8 @@ class AsideFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'sorting' => ''
+            'sorting' => '',
+            'searchString' => 'lkn'
             // Configure your form options here
         ]);
     }

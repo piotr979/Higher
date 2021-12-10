@@ -27,32 +27,22 @@
 					<button id="cta-close" class="btn btn-outline-secondary aside-filters__button-close">&#10006;</button>
 				</div>
 			</div>
-
+			<h3 class="mb-4">Filters</h3>
 			{{ form(filterForm)}}
-			<!-- <form action="">
-				<select class="form-select" aria-label="Sorting list">
-					<option selected>Sort by</option>
-					<option value="1">Latest</option>
-					<option value="2">Oldest</option>
-					<option value="3">Most commented</option>
-				</select>
-				<div class="d-flex flex-row mt-4">
-					<input class="form-control me-2 search-w" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-primary" type="submit">Search</button>
-				</div>
-			</form> -->
-
-			<div class="d-flex buttons-tags--flex flex-wrap mt-5 " aria-label="Basic outlined example">
-				<h3>Tags</h3>
-				<button type="button" class="btn btn-outline-secondary btn-sm">Electronics</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">Games</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">DIY</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">Fashion</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">Cooking</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">Music</button>
-				<button type="button" class="btn btn-outline-secondary btn-sm">DIY</button>
+			<div class="tag-buttons mt-5">
+				<h3 class="d-block mb-4">Tags</h3>
+			<div class="d-flex buttons-tags--flex flex-wrap  " aria-label="Basic outlined example">
+				
+				{% for tag in mostPopularTags %}
+			<a class="btn btn-outline-secondary btn-sm" 
+				href={{ path('articles', {
+					'tag' : tag.tagTitle
+				} 
+				)}}>{{ tag.tagTitle }}
+			</a>
+				{% endfor %}
 			</div>
-
+		</div>
 		</aside>
 		<div class="col-12 col-md-10 col-lg-8 container ">
 
@@ -60,10 +50,12 @@
 
 			<!-- ARTICLE STARTS HERE -->
 
-			<div
-				class="col-12">
+			<div class="col-12">
 
 				{# for some reason knp_paginator packs array into another #}
+				{% if articles is null %}
+				<h3>No articles found </h3>
+				{% else %}
 				{% for item in articles.items %}
 					{% for article in item %}
 					<a class="article-card--link" href="{{ path('article-single',{
@@ -88,15 +80,20 @@
 						</a>
 					{% endfor %}
 				{% endfor %}
+				{% endif %}
 			</div>
 
 			<!-- ARTICLE ENDS HERE -->
 
 			<!-- PAGINATION CONTROLS STARTS HERE -->
+			{% if articles is not null %}
 			<div class="d-flex justify-content-center mt-5">
 				{{ knp_pagination_render(articles) }}
+			
 			</div>
+			{% endif %}
 			<!-- PAGINATION CONTROLS ENDS HERE -->
+			
 		</div>
 	</div>
 </div>

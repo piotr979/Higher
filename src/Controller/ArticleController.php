@@ -22,19 +22,21 @@ class ArticleController extends AbstractController
      *  ARTICLES LIST ROUTE 
      ******************************/
 
-    #[Route('/articles/{sorting}/{searchString}/{page}', name: 'articles')]
+    #[Route('/articles/{sorting}/{page}/{tag}/{authorId}/{searchString}', name: 'articles')]
     public function articles(int $page = 1,
-                             $sorting='newest',
-                             $searchString = '',Request $request)
+                    $sorting='newest', $searchString = '',
+                    $authorId = '0', 
+                    $tag = 'notag', Request $request)
     {
-       
+     
         $repo = $this->getDoctrine()->getRepository(Article::class);
-        $articles = $repo->findAllPaginated($page, $sorting, $searchString);
+        $articles = $repo->findAllPaginated($page, $sorting, $tag, $authorId, $searchString);
         $mostPopularTags = $repo->getMostPopularTags();
 
         // no object needed to pass to new form, thus null
         $filterForm = $this->createForm(AsideFilterType::class, null, [
-            'sorting' => $sorting
+            'sorting' => $sorting,
+            'searchString' => $searchString
         ]);
        
 
@@ -47,13 +49,16 @@ class ArticleController extends AbstractController
             $data = $filterForm->getData();
             return $this->redirectToRoute('articles', 
                     array('sorting' => $data['sortBy'],
-                          'searchString' => $data['searchString']));
+                    'searchString' => $data['search'],
+                    'tag' => 'notag'
+                         ));
             
 
         }
         return $this->render('front/articles.html.twig', [
             'articles' => $articles,
             'sorting' => $sorting,
+            'searchString' => $searchString,
             'mostPopularTags' => $mostPopularTags,
             'filterForm' => $filterForm->createView()
         ]);
