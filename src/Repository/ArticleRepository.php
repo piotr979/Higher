@@ -91,26 +91,45 @@ class ArticleRepository extends ServiceEntityRepository
     };
     return $dataArray;
     }
-    public function findAllPaginated($page)
+    public function findAllPaginated($page, $sorting, $searchString)
     {
         /* USE higher;
            SELECT color,title, GROUP_CONCAT(tag_title) FROM article 
            INNER JOIN article_tag ON article.id = article_tag.article_id 
            INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id; 
-        */
 
-        $connection = $this->getEntityManager()->getConnection();
-        $stmt = $connection->query('SELECT article.id, color,title, content, image_url, 
+     SELECT article.id, color,title, content, image_url, 
         time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
         INNER JOIN user ON article.user_id = user.id
         INNER JOIN article_tag ON article.id = article_tag.article_id 
-        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
+        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id 
+      ORDER BY 
+     	(CASE WHEN color = 1 THEN created_AT END) DESC,
+      (CASE WHEN color = 2 THEN created_at END) ASC
+
+
+       
+       
+
+        */
+
+        $conn = $this->getEntityManager()->getConnection();
         
-        $dataArray = array();
+        $qb = ("SELECT article.id, color,title, content, image_url, 
+        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
+        INNER JOIN user ON article.user_id = user.id
+        INNER JOIN article_tag ON article.id = article_tag.article_id 
+        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id 
+         ORDER BY 
+     	    (CASE WHEN :sorting = 'newest' THEN created_at END) DESC,
+            (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC; ");
+        $stmt = $conn->prepare($qb);
+        $result = $stmt->executeQuery(['sorting' => $sorting]);
+      
         
         // TODO: Improve code quality (spread operator?)
 
-        while (($row = $stmt->fetchAssociative()) !== false) {
+        while (($row = $result->fetchAssociative()) !== false) {
          $dataArray[] = array(
              array('id' => $row['id'],
                  'title' => $row['title'],

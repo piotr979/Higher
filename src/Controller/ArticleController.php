@@ -12,6 +12,7 @@ use App\Form\ArticleFormType;
 use App\Form\CommentFormType;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Form\AsideFilterType;
 
 #[Route('article')]
 
@@ -21,15 +22,40 @@ class ArticleController extends AbstractController
      *  ARTICLES LIST ROUTE 
      ******************************/
 
-    #[Route('/articles/{page}', name: 'articles')]
-    public function articles(int $page = 1)
+    #[Route('/articles/{sorting}/{searchString}/{page}', name: 'articles')]
+    public function articles(int $page = 1,
+                             $sorting='newest',
+                             $searchString = '',Request $request)
     {
+       
         $repo = $this->getDoctrine()->getRepository(Article::class);
-        $articles = $repo->findAllPaginated($page);
+        $articles = $repo->findAllPaginated($page, $sorting, $searchString);
         $mostPopularTags = $repo->getMostPopularTags();
+
+        // no object needed to pass to new form, thus null
+        $filterForm = $this->createForm(AsideFilterType::class, null, [
+            'sorting' => $sorting
+        ]);
+       
+
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            // Articles jest z default parameters sort
+            // Normalnie jest najnowsze
+        
+            $data = $filterForm->getData();
+            return $this->redirectToRoute('articles', 
+                    array('sorting' => $data['sortBy'],
+                          'searchString' => $data['searchString']));
+            
+
+        }
         return $this->render('front/articles.html.twig', [
             'articles' => $articles,
-            'mostPopularTags' => $mostPopularTags
+            'sorting' => $sorting,
+            'mostPopularTags' => $mostPopularTags,
+            'filterForm' => $filterForm->createView()
         ]);
     }
     /** ****************************
