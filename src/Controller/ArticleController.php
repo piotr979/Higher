@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 use App\Entity\Article;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,6 @@ class ArticleController extends AbstractController
                     $authorId = '0', 
                     $tag = 'notag', Request $request)
     {
-     
         $repo = $this->getDoctrine()->getRepository(Article::class);
         $articles = $repo->findAllPaginated($page, $sorting, $tag, $authorId, $searchString);
         $mostPopularTags = $repo->getMostPopularTags();

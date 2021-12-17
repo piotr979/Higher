@@ -79,7 +79,8 @@ class ArticleFormType extends AbstractType
                     '2' => 2,
                     '3' => 3,
                     '4' => 4
-                 ]
+                ],
+                'data' => $articleData->getColor() ?? 1
             ])
             // ->add(
             //     'color',
