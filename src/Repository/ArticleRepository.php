@@ -18,22 +18,17 @@ use Knp\Component\Pager\PaginatorInterface;
 class ArticleRepository extends ServiceEntityRepository
 {
     private $paginator;
-
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Article::class);
         $this->paginator = $paginator;
     }
+
  /**
      * Get two the most popular authors
      */
     public function getAuthorsByNumberOfArticles(): array
     {
-    /*
-     SELECT first_name, last_name, COUNT(article.user_id) AS total FROM a
-     INNER JOIN user ON article.user_id = user.id GROUP BY 
-     article.user_id ORDER BY total DESC;
-    */
         $qb = $this->createQueryBuilder('a')
         ->select('u.id, u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
             ->innerJoin('a.user','u')
@@ -46,8 +41,6 @@ class ArticleRepository extends ServiceEntityRepository
     }
     public function getMostPopularTags()
     {
-    // SELECT tag_id, COUNT(*) as c FROM article_tag GROUP BY tag_id ORDER BY c DESC;
-
         $qb = $this->createQueryBuilder('a')
        ->innerJoin('a.tagsId', 't')
        ->select('t.id, t.tagTitle, count(t.id) AS amount')
@@ -73,24 +66,10 @@ class ArticleRepository extends ServiceEntityRepository
        INNER JOIN article_tag ON article.id = article_tag.article_id 
        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
        
-       $dataArray = array();
-       while (($row = $stmt->fetchAssociative()) !== false) {
-        $dataArray[] = array(
-            array('id' => $row['id'],
-                'title' => $row['title'],
-                  'content' => $row['content'],
-                  'image' => $row['image_url'],
-                  'color' => $row['color'],
-                  'time' => $row['time_to_read'],
-                  'date' => $row['created_at'],
-                  'tags' => $row['tags'],
-                  'aFirstName' => $row['first_name'],
-                  'aLastName' => $row['last_name'])
-        );
-
-    };
-    return $dataArray;
+       $data = $stmt->fetchAllAssociative();
+        return $data;
     }
+
     public function findAllPaginated($page, $sorting, $tag,$authorId, $searchString)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -134,28 +113,11 @@ class ArticleRepository extends ServiceEntityRepository
             $queryParams = [ 'tagTitle' => $tag ];
             $stmt = $conn->prepare($sqlTags);
         }
-      
         $result = $stmt->executeQuery($queryParams);
       
-        
-        // TODO: Improve code quality (spread operator?)
-
-        while (($row = $result->fetchAssociative()) !== false) {
-         $dataArray[] = array(
-             array('id' => $row['id'],
-                 'title' => $row['title'],
-                   'content' => $row['content'],
-                   'image' => $row['image_url'],
-                   'color' => $row['color'],
-                   'time' => $row['time_to_read'],
-                   'date' => $row['created_at'],
-                   'tags' => $row['tags'],
-                   'aFirstName' => $row['first_name'],
-                   'aLastName' => $row['last_name'])
-         );
-        }
-        if ( isset($dataArray)) {
-        $pagination = $this->paginator->paginate($dataArray, $page, 5);
+        $data = $result->fetchAllAssociative();
+        if ( isset($data)) {
+        $pagination = $this->paginator->paginate($data, $page, 5);
         } else {
            return null;
         }

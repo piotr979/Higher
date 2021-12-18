@@ -56,8 +56,7 @@
 				{% if articles is null %}
 				<h3>No articles found </h3>
 				{% else %}
-				{% for item in articles.items %}
-					{% for article in item %}
+				{% for article in articles %}
 					<a class="article-card--link" href="{{ path('article-single',{
 						id: article.id  } )}} ">
 							<div class="{{ 'article-card pt-2 ps-2 mb-4 hover-shadow border-color-' ~ article.color }}">
@@ -66,20 +65,25 @@
 										<h5 class="mt-2">{{ article.title|length > 50 ? article.title|slice(0,50) ~ "..." : article.title }}</h5>
 										<p class="text-secondary decrease-letter-spacing mb-0">New ways of recycling materials soon available</p>
 										<p class="text-primary article-card--author">By
-											{{ article.aFirstName }}&nbsp;{{ article.aLastName }}</p>
+											{{ article.first_name }}&nbsp;{{ article.last_name }}</p>
 									</div>
 									<div class="col-5 col-lg-4">
-										<img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image) }}" alt="">
+										<img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
 									</div>
 								</div>
 								<div class="row">
-									<small class="">23. Oct / 3 mins read</small>
+									<small class="">{{ article.created_at|date('d/M/Y') }} /
+										 {% if article.time_to_read == 1 %}
+										<span>1 min read</span>
+										{% else %}
+										<span>{{ article.time_to_read ~ " mins read " }}</span>
+									   {% endif %}</small>
 									<p class="pt-2 article-card--tags">{{ article.tags }}</p>
 								</div>
 							</div>
 						</a>
 					{% endfor %}
-				{% endfor %}
+			
 				{% endif %}
 			</div>
 

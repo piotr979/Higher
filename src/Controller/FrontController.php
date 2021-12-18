@@ -14,7 +14,8 @@ use App\Form\ProfileFormType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 
-
+/* My services */
+use App\Services\FileHandler;
 class FrontController extends AbstractController
 {
 
@@ -25,6 +26,7 @@ class FrontController extends AbstractController
     #[Route('/', name: 'main')]
     public function index(): Response
     {
+        
         $articlesRepo = $this->getDoctrine()->getRepository(Article::class);
         $bestUsers = $articlesRepo->getAuthorsByNumberOfArticles();
         $mostPopularTags = $articlesRepo->getMostPopularTags();
@@ -42,34 +44,25 @@ class FrontController extends AbstractController
      ******************************/
 
     #[Route('/profile', name:'profile')]
-    public function userpanel(Request $request)
+    public function userpanel(Request $request, FileHandler $fileHandler)
     {
         $user = $this->getUser();
-
         $userForm = $this->createForm(ProfileFormType::class);
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-
            /* get Manager and User data  */
           $em = $this->getDoctrine()->getManager();
           $userUpdatedData = $userForm->getData();
         
           /* Updating user photo image */
           $file = $userForm->get('photo')->getData();
-          if ($file) {
-              $originalName = pathInfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-              $fileName = $originalName . md5(uniqid()) . '.' . $file->guessExtension();
-              try {
-                
-             /* Uploading photo, updating user photo url */
-              $pathForUploads = $this->getParameter('uploads_dir');  
-              $file->move($pathForUploads, $fileName);
-              $user->setPhotoUrl($pathForUploads . '/' . $fileName);
-              } catch ( FileException $e) {
-                    // TODO: Handle exception
-              }
-          }
+         
+          /* Using FileHandler service  */
+          $fileNameWithPath = $fileHandler->uploadFile($file, $this->getParameter('uploads_dir'));
+          
+          $user->setPhotoUrl($fileNameWithPath);
+          
          /* Updating remaining user details */
           $user->setFirstName($userUpdatedData['first_name']);
 
