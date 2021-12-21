@@ -106,6 +106,7 @@ class ArticleController extends AbstractController
             $article->setTitle($formData->getTitle());
             $article->setContent($formData->getContent());
             $article->setColor($formData->getColor());
+            $article->setTimeToRead($formData->getTimeToRead());
             $tagsList = $formData->getTagsId();
 
             foreach ($tagsList as $tag)

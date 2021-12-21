@@ -20,6 +20,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ArticleFormType extends AbstractType
 {
@@ -98,7 +99,12 @@ class ArticleFormType extends AbstractType
                     'choice_label' => 'tag_title',
                     'multiple' => true
                 ])
-            ->add('submit', SubmitType::class);
+            ->add('timeToRead', NumberType::class, [
+                'label' => "Time to read (in minutes)"
+            ])
+            ->add('submit', SubmitType::class, [
+                
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
