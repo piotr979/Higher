@@ -22529,8 +22529,8 @@ p.display-4-slide {
   color: red;
 }
 .profile-photo {
-  width: 10rem;
-  height: auto;
+  width: 12rem;
+  height: 10rem;
 }
 .hide-input {
   display: none;
@@ -22593,5 +22593,41 @@ p.display-4-slide {
   }
 .comment-photo {
   width: 75px;
+  height: 75px;
+}
+.clean-list-item {
+  list-style-type: none;
+  padding-left:.5rem;
+  margin-left: 0;
+  flex-direction: row;
+  align-items: center;
+  transition: .4s padding-left;
+}
+.clean-list-item:hover {
+  padding-left: 1rem;
+}
+.clean-list-item img {
+  width: 2rem;
   height: auto;
+}
+
+.clean-list--image {
+  padding-right: 1rem;
+}
+.sidebar--anchor-list {
+  padding-left: 0;
+}
+.anchor-active {
+  background-color: #eee;
+}
+.sidebar-space {
+  margin-left: 0rem;
+  margin-top: 3rem;
+}
+@media screen and (min-width: 850px) {
+  .sidebar-space {
+  margin-left: 17rem;
+  margin-top: 0rem;
+  }
+  
 }

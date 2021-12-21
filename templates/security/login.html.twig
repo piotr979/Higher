@@ -12,10 +12,10 @@
 {% endif %}
 
 {% if app.user %}
-    <div class="mb-3">
-        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    <div class="mb-3 text-center">
+        You are logged in as {{ app.user.username }}. You can <a href="{{ path('app_logout') }}">logout</a> now.
     </div>
-{% endif %}
+    {% else %} 
 
             <h3 class="text-center">Login</h3>
             <p class="text-center mt-4">No account? &nbsp;<a href="{{ path('app_register') }}">Click here to register.</a>
@@ -45,8 +45,10 @@
                         </div>
                     #}
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary mb-4">Submit</button>
             </form>
+            {% endif %}
+
         </div>
     </div>
 </div>

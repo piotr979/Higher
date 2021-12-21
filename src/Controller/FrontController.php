@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 /* My services */
 use App\Services\FileHandler;
+use App\Services\EMailer;
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
+
 class FrontController extends AbstractController
 {
 
@@ -101,12 +104,14 @@ class FrontController extends AbstractController
      *  CONTACT PAGE ROUTE 
      ******************************/
     #[Route('/contact', name: 'contact')]
-    public function contact()
+    public function contact(Request $request, EMailer $emailer)
     {
         $contactForm = $this->createForm(ContactType::class);
-
+        $contactForm->handleRequest($request);
         if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-            dump($contactForm);
+            $contact = $contactForm->getData();
+            $response = $emailer->sendEmail($contact->getEmail(), $contact->getName(), $contact->getMessage());
+            echo $response;
         }
         return $this->render('/front/contact.html.twig', [
             'contactForm' => $contactForm->createView()
@@ -114,7 +119,7 @@ class FrontController extends AbstractController
     }
     
      /** ****************************
-     *  FOOTER TAG LINKS ROUTE 
+     *  FOOTER TAG LINKS 
      ******************************/
     public function getMostPopularTags()
     {

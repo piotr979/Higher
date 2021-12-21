@@ -9,6 +9,7 @@ class FileHandler
 {
     public function uploadFile($file, $uploads_dir)
     {
+        
         if ($file) {
             $originalName = pathInfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $fileName = $originalName . md5(uniqid()) . '.' . $file->guessExtension();
@@ -19,8 +20,9 @@ class FileHandler
             } catch (FileException $e) {
 
             }
+            return $pathForUploads . '/' . $fileName;
         }
-        return $pathForUploads . '/' . $fileName;
+        
     }
 
 }

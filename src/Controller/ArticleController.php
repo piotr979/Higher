@@ -198,7 +198,11 @@ class ArticleController extends AbstractController
         $em->remove($article);
         $em->flush();
 
+        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            return $this->redirectToRoute('admin-articles');
+        } else {
         return $this->redirectToRoute('profile');
+        }
     }
 }
 

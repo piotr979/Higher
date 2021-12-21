@@ -1,0 +1,69 @@
+{% extends 'admin/base.html.twig' %} 
+
+            {% block body %}
+     
+
+            <div class="sidebar-space">
+                <h2 class="mt-4 mb-lg-4">Articles by all authors</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Tags</th>
+                                <th scope="col">Date added</th>
+                                <th class="text-center" scope="col">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set id = 1 %}
+                            {% for article in articles %}
+
+                            <!-- DELETE MODAL STARTS HERE -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Deleting article</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Are you sure?
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                      <a href="{{ path('remove', { id: article.id } ) }}" type="button" class="btn btn-primary">Yes, delete</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <!-- DELETE MODALS ENDS HERE -->
+                                {% set urlToArticle = url('article-edit', {'id': article.id} ) %}
+                                <tr data-id="{{ article.id }}" data-path="{{ urlToArticle }}" class="article-table__link">
+                                    <td>
+                                        {{ id }}
+                                    </td>
+                                    {% set id = id + 1 %}
+                                    <td>{{ article.title|length > 30 ? article.title|slice(0,30) ~ '...' : article.title }}</td>
+                                    <td>{{ article.tags }}
+                                    </td>
+                                    <td>{{ article.created_at | date("m/d/Y H:m:s") }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <img class="text-center" src="{{ asset('assets/images/admin/delete.svg') }}" alt="">
+                                          </button>
+                                        
+                                
+                                    </div>  
+                                </td>
+                                
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+ {% endblock %}

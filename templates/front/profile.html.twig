@@ -7,6 +7,11 @@
 	<div class="container-xl mt-5">
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8">
+				{% for message in app.flashes('security') %}
+				<div class="alert alert-success" role="alert">
+					{{ message }}
+				  </div>
+				  {% endfor %}
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Articles</button>
@@ -64,7 +69,11 @@
 
 						<div class="row mt-4 d-flex">
 							<div class="col-12 col-md-4 d-flex justify-content-center">
+								{% if photo_url != null %}
 								<img class="profile-photo mx-auto" src="{{ asset(photo_url) }}" alt="">
+								{% else %}
+								<img class="profile-photo mx-auto" src="{{ asset('assets/images/users/dummy.png') }}" alt="missing photo">
+								{% endif %}
 							</div>
 							<div class="col-12 col-md-8 mt-4 mt-md-0">
 								<h2 class="text-center">{{ first_name }}&nbsp;{{ last_name }}</h2>
@@ -99,15 +108,6 @@
 
 	{% block javascripts %}
 		{{ parent() }}
-		<script>
-			// This little script creates anchor for table rows
-        const rows = document.querySelectorAll('.article-table__link');
-        rows.forEach(row => {
-            row.addEventListener('click', function (e) {
-            const dataSet = e.target.parentNode.dataset;
-            location.href = dataSet.path;
-        })
-});
-		</script>
+	  <script src={{ asset('assets/js/custom.js') }}></script>
 	{% endblock %}
 

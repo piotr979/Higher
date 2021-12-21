@@ -5,6 +5,10 @@ namespace App\Repository;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +18,29 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $paginator;
+
+    public function __construct(PaginatorInterface $paginator, ManagerRegistry $registry)
     {
+        $this->paginator = $paginator;
         parent::__construct($registry, Comment::class);
     }
+    public function findAllPaginated($page) {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $dql   = "SELECT c.id, c.content, user.first_name, user.last_name FROM comment AS c
+        LEFT JOIN user ON c.user_id = user.id";
+      $stmt = $conn->prepare($dql);
+        $result = $stmt->executeQuery();
+        $data = $result->fetchAllAssociative();
+
+        if ( isset($data)) {
+            $pagination = $this->paginator->paginate($data, $page, 5);
+            } else {
+               return null;
+            }
+            return $pagination;
+        }
 
     public function getCommentWithUsersData($comments)
     {
