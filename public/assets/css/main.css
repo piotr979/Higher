@@ -22629,5 +22629,9 @@ p.display-4-slide {
   margin-left: 17rem;
   margin-top: 0rem;
   }
-  
+}
+.article-buttons__delete {
+  padding: 0;
+  display: block;
+  height: 100%;
 }

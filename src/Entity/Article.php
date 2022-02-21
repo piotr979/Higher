@@ -169,7 +169,6 @@ class Article
     public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTimeImmutable();
-        dump($this->createdAt);
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable

@@ -40,8 +40,6 @@ class ArticleFormType extends AbstractType
         $articleData->setImageUrl('');
         $articleData->setContent('');
         $articleData->setColor(1);
-      
-
        
         if ($options['id'] != null) {
         
@@ -100,7 +98,8 @@ class ArticleFormType extends AbstractType
                     'multiple' => true
                 ])
             ->add('timeToRead', NumberType::class, [
-                'label' => "Time to read (in minutes)"
+                'label' => "Time to read (in minutes)",
+                'data' => $articleData->getTimeToRead()
             ])
             ->add('submit', SubmitType::class, [
                 

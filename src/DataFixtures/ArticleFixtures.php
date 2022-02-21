@@ -13,9 +13,10 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-       $articles = [
-           [  'Cooking up memories this holiday season',
-           'The kitchen is considered the heart of the home and this is never so true as during 
+        $articles = [
+            [
+                'Cooking up memories this holiday season',
+                'The kitchen is considered the heart of the home and this is never so true as during 
        the holidays. For many people at this time of year, it’s important to have a place where 
        you can cook and spend time with loved ones without feeling cramped or stressed out.
        Gone are the days of the design mindset when kitchens were tucked away and used only for 
@@ -29,14 +30,14 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
          offered by Jean Bateman. The 7,648-square-foot home includes a rustic kitchen that
           blends stone and wood and opens to a spacious living area and wet bar. The kitchen
            includes a separate baker’s cupboard.',
-           '',  // imageUrl
-           [1, 2], // tags
-           1
+                '',  // imageUrl
+                [1, 2], // tags
+                1, 5
 
-       ],
-       [
-        'The Best Black Friday Weekend Tech and Electronics Deals',
-        'All products and services featured are independently chosen by editors. 
+            ],
+            [
+                'The Best Black Friday Weekend Tech and Electronics Deals',
+                'All products and services featured are independently chosen by editors. 
         owever, Billboard may receive a commission on orders placed through its retail links,
          and the retailer may receive certain auditable data for accounting purposes.
         Black Friday may be over but the savings continue through Black Friday weekend and 
@@ -51,13 +52,13 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         Shop: Sony WH-1000XM4 Wireless Noise-Cancelling Headphones $248
         One of the best Black Friday weekend deals is on the Sony WH-1000XM4 Wireless Headphones — the top-rated noise-cancelling headphones on the market today. Regularly $349+, the headphones are on sale for just $248 — the lowest price we’ve seen for these cans all year. See the deal here.
         $40 off Echo Show 5 ',
-        '',  // imageUrl
-        [1, 2], // tags
-        3
-       ],
-       [
-        'The Best Black Friday Weekend Tech and Electronics Deals',
-        'All products and services featured are independently chosen by editors. 
+                '',  // imageUrl
+                [1, 2], // tags
+                3, 6
+            ],
+            [
+                'The Best Black Friday Weekend Tech and Electronics Deals',
+                'All products and services featured are independently chosen by editors. 
         owever, Billboard may receive a commission on orders placed through its retail links,
          and the retailer may receive certain auditable data for accounting purposes.
         Black Friday may be over but the savings continue through Black Friday weekend and 
@@ -72,21 +73,22 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         Shop: Sony WH-1000XM4 Wireless Noise-Cancelling Headphones $248
         One of the best Black Friday weekend deals is on the Sony WH-1000XM4 Wireless Headphones — the top-rated noise-cancelling headphones on the market today. Regularly $349+, the headphones are on sale for just $248 — the lowest price we’ve seen for these cans all year. See the deal here.
         $40 off Echo Show 5 ',
-        '',  // imageUrl
-        [1, 2], // tags
-        3
-       ]
-       ];
-      
-       forEach($articles as $article ) {
-          $title = $article[0];
-          $content = $article[1];
-          $imageUrl = $article[2];
-          $tags = $article[3];
-          $color = $article[4];
-          $article = $this->articleGenerator($title, $content, $imageUrl, $tags, $color);
-          $manager->persist($article);
-           }
+                '',  // imageUrl
+                [1, 2], // tags
+                3, 8
+            ]
+        ];
+
+        foreach ($articles as $article) {
+            $title = $article[0];
+            $content = $article[1];
+            $imageUrl = $article[2];
+            $tags = $article[3];
+            $color = $article[4];
+            $timeToRead = $article[5];
+            $article = $this->articleGenerator($title, $content, $imageUrl, $tags, $color, $timeToRead);
+            $manager->persist($article);
+        }
         $manager->flush();
     }
     public function articleGenerator(
@@ -94,7 +96,8 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         string $content,
         string $imageUrl,
         array $tagsId,
-        int $color
+        int $color,
+        int $timeToRead
     ): Article {
         $backendTeam = $this->getReference('user1');
         $tagRef = $this->getReference('Electronics');
@@ -108,6 +111,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         $article->setColor($color);
         $article->setUser($user1);
         $article->addTagsId($tagRef);
+        $article->setTimeToRead($timeToRead);
         return $article;
     }
     public function getDependencies()
