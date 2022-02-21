@@ -68,7 +68,11 @@
 											{{ article.first_name }}&nbsp;{{ article.last_name }}</p>
 									</div>
 									<div class="col-5 col-lg-4">
-										<img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
+										  {% if article.image_url is defined %}
+                <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
+              {% else %}
+                 <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset('images/placeholder.gif') }}" alt="">
+              {% endif %}
 									</div>
 								</div>
 								<div class="row">

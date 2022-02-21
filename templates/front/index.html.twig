@@ -93,11 +93,18 @@ class="container-fluid slider-full">
             <div class="row">
               <div class="col-7 col-lg-8">
                 <h5 class="mt-2">{{ article.title|length > 30 ? article.title|slice(0,30) ~ "..." : article.title }}</h5>
-                <p class="text-secondary decrease-letter-spacing mb-0">New ways of recycling materials soon available</p>
+                {% if article.subtitle is defined %}
+          <p class="text-secondary decrease-letter-spacing mb-0">{{ article.subtitle }}</p>
+          {% endif %}
+               
                 <p class="text-primary article-card--author">By {{ article.first_name }}&nbsp;{{ article.last_name }}</p>
               </div>
               <div class="col-5 col-lg-4">
+              {% if article.image_url is defined %}
                 <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
+              {% else %}
+                 <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset('images/placeholder.gif') }}" alt="">
+              {% endif %}
               </div>
             </div>
             <div class="row">
@@ -129,7 +136,7 @@ class="container-fluid slider-full">
 <div class="container-xl mb-5">
   <div class="row justify-content-center">
 
-    {% for article in latestArticles|slice(0,2) %}
+    {% for article in latestArticles|slice(0,3) %}
     
 
     <div class="col-12 col-sm-6 col-md-4">
@@ -139,7 +146,9 @@ class="container-fluid slider-full">
         </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ article.title }}</h5>
-          <p class="card-text">Try this new way of adding adding ingredients together.</p>
+          {% if article.subtitle is defined %}
+          <p class="card-text">{{ article.subtitle }}</p>
+          {% endif %}
           <div class="mt-auto">
             <a href="{{ path('article-single', { 'id' : article.id }) }}" class="btn btn-primary">Read now</a>
           </div>

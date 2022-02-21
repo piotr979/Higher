@@ -61,7 +61,7 @@ class ArticleRepository extends ServiceEntityRepository
 
        $connection = $this->getEntityManager()->getConnection();
        $stmt = $connection->query('SELECT article.id, color,title, content, image_url, 
-       time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article 
+       time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags, subtitle FROM article 
        INNER JOIN user ON article.user_id = user.id
        INNER JOIN article_tag ON article.id = article_tag.article_id 
        INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
@@ -75,7 +75,7 @@ class ArticleRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
      
         $sqlTags = "SELECT article.id, color,title, content, image_url, 
-        time_to_read, created_at, first_name, last_name, tag_title AS tags FROM article
+        time_to_read, created_at, first_name, last_name, tag_title AS tags, subtitle FROM article
         INNER JOIN user ON article.user_id = user.id
         INNER JOIN article_tag ON article.id = article_tag.article_id 
         INNER JOIN tag ON article_tag.tag_id = tag.id
@@ -83,7 +83,7 @@ class ArticleRepository extends ServiceEntityRepository
         ";
 
     $sqlFiltering = "SELECT article.id, color,title, content, image_url, 
-    time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article
+    time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags, subtitle FROM article
     INNER JOIN user ON article.user_id = user.id
     INNER JOIN article_tag ON article.id = article_tag.article_id 
     INNER JOIN tag ON article_tag.tag_id = tag.id
@@ -94,7 +94,7 @@ class ArticleRepository extends ServiceEntityRepository
             (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC";
         
     $sqlByAuthor = "SELECT article.id, color,title, content, image_url, 
-        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags FROM article
+        time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags, subtitle FROM article
         INNER JOIN user ON article.user_id = user.id
         INNER JOIN article_tag ON article.id = article_tag.article_id 
         INNER JOIN tag ON article_tag.tag_id = tag.id
@@ -136,7 +136,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         $conn = $this->getEntityManager()->getConnection();
         $query = ('
-            SELECT  a.content AS articleContent, a.image_url AS articleCover, a.title, a.color, a.created_at,
+            SELECT  a.content AS articleContent, a.image_url AS articleCover, a.title, a.color, a.created_at, a.subtitle,
             articleAuthor.first_name AS aAFirstName, articleAuthor.last_name AS aALastName,
             articleAuthor.photo_url AS authorPhoto,
             GROUP_CONCAT(commentAuthor.first_name SEPARATOR 0x1E ) AS caFirstName, 

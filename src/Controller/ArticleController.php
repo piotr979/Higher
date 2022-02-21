@@ -23,7 +23,7 @@ class ArticleController extends AbstractController
     /** ****************************
      *  ARTICLES LIST ROUTE
      *****************************
-     */
+     */ 
     #[Route('/articles/{sorting}/{page}/{tag}/{authorId}/{searchString}', name: 'articles')]
     public function articles(int $page = 1, $sorting = 'newest', $searchString = '', $authorId = '0', $tag = 'notag', Request $request)
     {
@@ -104,6 +104,7 @@ class ArticleController extends AbstractController
             $article = new Article();
             $article->setUser($this->getUser());
             $article->setTitle($formData->getTitle());
+            $article->setSubtitle($formData->getSubtitle());
             $article->setContent($formData->getContent());
             $article->setColor($formData->getColor());
             $article->setTimeToRead($formData->getTimeToRead());
@@ -157,6 +158,7 @@ class ArticleController extends AbstractController
 
             $articleEdited = $articleForm->getData();
             $article->setTitle($articleEdited->getTitle());
+            $article->setSubtitle($articleEdited->getSubtitle());
             $article->setContent($articleEdited->getContent());
             $article->setColor($articleEdited->getColor());
 

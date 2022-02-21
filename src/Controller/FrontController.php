@@ -92,6 +92,7 @@ class FrontController extends AbstractController
 
         ]);
     }
+
     /******************************
      *  SUBSCRIPTION PAGE ROUTE 
      ******************************/
@@ -100,6 +101,7 @@ class FrontController extends AbstractController
     {
         return $this->render('/front/subscription.html.twig');
     }
+
      /******************************
      *  CONTACT PAGE ROUTE 
      ******************************/
@@ -111,14 +113,13 @@ class FrontController extends AbstractController
         if ($contactForm->isSubmitted() && $contactForm->isValid()) {
             $contact = $contactForm->getData();
             $response = $emailer->sendEmail($contact->getEmail(), $contact->getName(), $contact->getMessage());
-            echo $response;
         }
         return $this->render('/front/contact.html.twig', [
             'contactForm' => $contactForm->createView()
         ]);
     }
     
-     /** ****************************
+     /******************************
      *  FOOTER TAG LINKS 
      ******************************/
     public function getMostPopularTags()

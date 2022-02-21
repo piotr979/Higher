@@ -37,6 +37,7 @@ class ArticleFormType extends AbstractType
 
         $articleData = new Article();
         $articleData->setTitle('');
+        $articleData->setSubtitle('');
         $articleData->setImageUrl('');
         $articleData->setContent('');
         $articleData->setColor(1);
@@ -49,6 +50,9 @@ class ArticleFormType extends AbstractType
         $builder
             ->add('title', TextType::class,[
                 'data' => $articleData->getTitle()
+            ])
+            ->add('subtitle', TextType::class, [
+                'data' => $articleData->getSubtitle()
             ])
             ->add('image_url', FileType::class, [
                 'label' => 'Cover image',

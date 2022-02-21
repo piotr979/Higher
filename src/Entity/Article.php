@@ -68,6 +68,11 @@ class Article
      */
     private $timeToRead;
 
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $subtitle;
+
     public function __construct()
     {
         $this->tagsId = new ArrayCollection();
@@ -221,6 +226,18 @@ class Article
     public function setTimeToRead(int $timeToRead): self
     {
         $this->timeToRead = $timeToRead;
+
+        return $this;
+    }
+
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+
+    public function setSubtitle(string $subtitle): self
+    {
+        $this->subtitle = $subtitle;
 
         return $this;
     }
