@@ -11,3 +11,5 @@ It support following features:
 6. Filtering/sorting articles
 
 It doesn't support any form of protection when logging/registering/contacting (no Captcha mechanism )
+
+![alt text](sshot.jpg)
