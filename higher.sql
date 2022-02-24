@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-db
--- Generation Time: Feb 21, 2022 at 06:32 PM
+-- Generation Time: Feb 24, 2022 at 07:03 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.20
 
@@ -106,8 +106,6 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id`, `user_id`, `article_id`, `content`, `created_at`) VALUES
-(1, 7, 8, 'This is comment example.', '2022-02-21 07:04:49'),
-(2, 7, 9, 'This is sample comment', '2022-02-21 14:41:18'),
 (3, 7, 9, 'And another one', '2022-02-21 14:41:39');
 
 -- --------------------------------------------------------
@@ -213,7 +211,8 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `first_name`, `last_name
 (7, 'johnmurphy@user.com', '[]', '$2y$13$nojA/Gex6sr0w/8YNOoQrOG8cOz46XKKz6Dqam587GLzFVWjwIjem', 'John', 'Murphy', 'uploads/users/christian-buehner-DItYlc26zVI-unsplash.jpg', NULL),
 (8, 'andreajackson@user.com', '[]', '$2y$13$XceEdYQ6JGOeUY/4HyXLEe5hwgW6C5/7Xnv9sicUWd3cvfDAJ75t6', 'Andrea', 'Jackson', 'uploads/users/jessica-felicio-_cvwXhGqG-o-unsplash49d1c036298d561f17ce8b1391db1d77.jpg', NULL),
 (9, 'robertedwin@user.com', '[]', '$2y$13$keF757eCq/9p0FWxjgFJaObRTAqYi672jodYWyP/uHhPZnfoyrEl6', 'Robert', 'Edwin', 'uploads/users/ben-parker-OhKElOkQ3RE-unsplash.jpg', NULL),
-(10, 'admin@admin.com', '[\"ROLE_ADMIN\"]', '$2y$13$sNMmn6bUeKDDB1fMmlkOweUQ3WvsnGnByjIxqCvZQpq1W1U5eepdy', 'Admin', 'Admin', NULL, NULL);
+(10, 'admin@admin.com', '[\"ROLE_ADMIN\"]', '$2y$13$sNMmn6bUeKDDB1fMmlkOweUQ3WvsnGnByjIxqCvZQpq1W1U5eepdy', 'Admin', 'Admin', NULL, NULL),
+(11, 'kok@wp.pl', '[]', '$2y$13$sPQh4v0xl4SFswtT/r8fC.oKmPZWP2VfzxjwwZvf6Uj1fqO1jwZLy', 'Pop', 'Tok', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -283,7 +282,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `article`
 --
 ALTER TABLE `article`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -307,7 +306,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
