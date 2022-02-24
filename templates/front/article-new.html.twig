@@ -7,15 +7,15 @@
 				<h1 class="h2 mb-4 text-center">New article</h1>
 
 				<!-- FORM STARTS HERE -->
-
 				{{ form_start(articleForm) }}
 				{{ form_row(articleForm.title) }}
+				{{ form_row(articleForm.subtitle) }}
 				<p>Selected image:
 				</p>
 				{{ form_row(articleForm.image_url) }}
 				{{ form_row(articleForm.content) }}
 
-        <!-- COLOR PICKER STARTS HERE -->
+				<!-- COLOR PICKER STARTS HERE -->
 				<label class="my-3 d-block" for="">Select accent color</label>
 				<div class="d-flex color-picker--wrapper mb-4">
 					{% block choice_widget %}
@@ -28,12 +28,11 @@
 						{% endfor %}
 					{% endblock choice_widget %}
 				</div>
-          <!-- COLOR PICKER STARTS HERE -->
+				<!-- COLOR PICKER STARTS HERE -->
 
 				{{ form_row(articleForm.tags_id) }}
 				{{ form_row(articleForm.timeToRead) }}
 				{{ form_row(articleForm.submit) }}
-				
 				{{ form_end(articleForm) }}
 
 				<!-- FORM ENDS HERE -->
@@ -47,5 +46,4 @@
   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
   autosave_ask_before_unload: false
   })
-}}
-{% endblock %}
+}}{% endblock %}

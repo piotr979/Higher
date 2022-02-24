@@ -207,5 +207,22 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('profile');
         }
     }
+
+    /** ****************************
+     *  REMOVE COMMENT ROUTE
+     *****************************
+     */
+    #[Route('/remove-comment/{id}', name:'remove-comment')]
+    public function removeComment($id)
+    {
+        $comment = $this->getDoctrine()
+            ->getRepository(Comment::class)
+            ->find($id);
+        $em = $this->getDoctrine()
+            ->getManager();
+        $em->remove($comment);
+        $em->flush();
+            return $this->redirectToRoute('admin-comments');
+    }
 }
 

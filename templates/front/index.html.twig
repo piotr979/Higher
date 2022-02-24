@@ -1,168 +1,146 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-<div
-class="container-fluid slider-full">
+	<div
+		class="container-fluid slider-full">
 
-<!-- MOTIONLESS HERO SECTION STARTS HERE -->
-<div class="container pt-2 pb-4">
-    <div class="d-flex flex-column flex-md-row">
-        <div class="col align-self-center">
-            <p class="display-4 display-4-slide fw-bold text-center animate__animated animate__fadeInLeft">Read.&nbsp;Publish.&nbsp;<span class="text-primary">Explore</span>
-            </p>
-            <h4 class="text-center animate__animated animate__fadeInRight">Find exciting articles written by people for people.</h4>
-        </div>
-        <div class="col">
-            <img class="mx-auto d-block slide-full" src="{{ asset('assets/images/office.svg')}}" alt="">
-        </div>
-    </div>
-</div>
-</div>
+		<!-- MOTIONLESS HERO SECTION STARTS HERE -->
+		<div class="container pt-2 pb-4">
+			<div class="d-flex flex-column flex-md-row">
+				<div class="col align-self-center">
+					<p class="display-4 display-4-slide fw-bold text-center animate__animated animate__fadeInLeft">Read.&nbsp;Publish.&nbsp;<span class="text-primary">Explore</span>
+					</p>
+					<h4 class="text-center animate__animated animate__fadeInRight">Find exciting articles written by people for people.</h4>
+				</div>
+				<div class="col">
+					<img class="mx-auto d-block slide-full" src="{{ asset('assets/images/office.svg')}}" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- MOTIONLESS HERO SECTION ENDS HERE -->
 
-<!-- MOTIONLESS HERO SECTION ENDS HERE -->
+	<!-- CARDS WITH LIST GROUP STARTS HERE -->
+	<div class="container-xl my-2">
 
-<!-- CARDS WITH LIST GROUP STARTS HERE -->
+		<div class="d-flex flex-column flex-sm-row justify-content-between  gap-4">
 
-<div class="container-xl my-2">
-       
-    <div class="d-flex flex-column flex-sm-row justify-content-between  gap-4">
-     
-      <div class="col">
-        <h4 class="my-4">Most popular authors</h4>
-        
-        <div class="col d-flex flex-sm-row flex-column gap-2">
-         
-            {% for user in bestUsers|slice(0,2) %}
-                <div class="col-12 col-md-6 card">
-                  {% if user.photo_url != null %}
-                    <img src="{{ asset(user.photo_url) }}" class="card-img-top" alt="user's photo">
-                    {% else %}
-                    <img src="" alt="..." />
-                    {% endif %}
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ user.first_name }}&nbsp; {{ user.last_name }}</h5>
-                        <p class="card-text">{{ user.bio }}</p>
-                        <div class="mt-auto">
-                        <a href="{{ path('articles',{ 'authorId' : user.id }) }}" class="btn btn-primary">See articles</a>
-                    </div>
-                    </div>
-                </div>
-                {% endfor %}
-    
-            </div>
+			<div class="col">
+				<h4 class="my-4">Most popular authors</h4>
+				<div class="col d-flex flex-sm-row flex-column gap-2">
+					{% for user in bestUsers|slice(0,2) %}
+						<div class="col-12 col-md-6 card">
+							{% if user.photo_url != null %}
+								<img src="{{ asset(user.photo_url) }}" class="card-img-top" alt="user's photo">
+							{% else %}
+								<img src="" alt="..."/>
+							{% endif %}
+							<div class="card-body d-flex flex-column">
+								<h5 class="card-title">{{ user.first_name }}&nbsp;
+									{{ user.last_name }}</h5>
+								<p class="card-text">{{ user.bio }}</p>
+								<div class="mt-auto">
+									<a href="{{ path('articles',{ 'authorId' : user.id }) }}" class="btn btn-primary">See articles</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="d-none d-lg-block col-12 col-sm-4 gap-2 slist--badges">
+				<h4 class="my-4">Popular tags</h4>
+				<ul class="list-group">
+					{% for tag in mostPopularTags|slice(0,8) %}
 
-            </div>
-        
-            <div class="d-none d-lg-block col-12 col-sm-4 gap-2 slist--badges">
-      <h4 class="my-4">Popular tags</h4>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<a class="text-dark" href="{{ path('articles', { 'tag' : tag.tagTitle }) }}">
+								{{ tag.tagTitle }}
+							</a>
+							<span class="badge bg-primary rounded-pill">{{ tag.amount }}</span>
+						</li>
 
-                <ul class="list-group">
-                    {% for tag in mostPopularTags|slice(0,8) %}
-                  
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <a class="text-dark" href="{{ path('articles', { 'tag' : tag.tagTitle }) }}"> 
-                      {{ tag.tagTitle }}
-                    </a>
-                        <span class="badge bg-primary rounded-pill">{{ tag.amount }}</span>
-                    </li>
-                  
-                   {% endfor %}
-                </ul>
-            </div>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- CARDS WITH LIST GROUP ENDS HERE -->
 
-        </div>
-  
-  </div>
-   <!-- CARDS WITH LIST GROUP ENDS HERE -->
-   
-     <!-- ARTICLES GROUP STARTS HERE -->
+	<!-- ARTICLES GROUP STARTS HERE -->
+	<div class="container-xl my-5">
+		<h4 class="my-4">Latest articles</h4>
+		<div class="row">
 
-     <div class="container-xl my-5">
-        <h4 class="my-4">Latest articles</h4>
-      <div class="row">
-        
-      
-        <!-- ARTICLE CARD -->
-        {% for article in latestArticles|slice(0,4) %}
-       
-        <div class="col-md-6 col-12 mb-3">
-          <a class="article-card--link" href="{{ path('article-single',{
-            id: article.id  } )}} ">
-          <div class="{{ 'article-card pt-2 ps-2 hover-shadow border-color-' ~ article.color }}">
-            <div class="row">
-              <div class="col-7 col-lg-8">
-                <h5 class="mt-2">{{ article.title|length > 30 ? article.title|slice(0,30) ~ "..." : article.title }}</h5>
-                {% if article.subtitle is defined %}
-          <p class="text-secondary decrease-letter-spacing mb-0">{{ article.subtitle }}</p>
-          {% endif %}
-               
-                <p class="text-primary article-card--author">By {{ article.first_name }}&nbsp;{{ article.last_name }}</p>
-              </div>
-              <div class="col-5 col-lg-4">
-              {% if article.image_url is defined %}
-                <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
-              {% else %}
-                 <img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset('images/placeholder.gif') }}" alt="">
-              {% endif %}
-              </div>
-            </div>
-            <div class="row">
-              <small class=""><span>{{ article.created_at|date('d/m/Y') }} </span>
-            
-                {% if article.time_to_read == 1 %}
-                <span>1 min read</span>
-                {% else %}
-                <span>{{ article.time_to_read ~ " mins read " }}</span>
+			<!-- ARTICLE CARD -->
+			{% for article in latestArticles|slice(4,7) %}
+				<div class="col-md-6 col-12 mb-3">
+					<a class="article-card--link" href="{{ path('article-single',{ id: article.id } )}} ">
+						<div class="{{ 'article-card pt-2 ps-2 hover-shadow border-color-' ~ article.color }}">
+							<div class="row">
+								<div class="col-7 col-lg-8">
+									<h5 class="mt-2">{{ article.title|length > 30 ? article.title|slice(0,30) ~ "..." : article.title }}</h5>
+									{% if article.subtitle is defined %}
+										<p class="text-secondary decrease-letter-spacing mb-0">{{ article.subtitle }}</p>
+									{% endif %}
 
-              </small>
-               {% endif %}
-                <p class="pt-2 article-card--tags">{{ article.tags }}</p>
-            </div>
-          </div>
-        </a>
-        </div>
-      
-        {% endfor %}
-        <!-- ARTICLE CARD ENDS HERE -->
+									<p class="text-primary article-card--author">By
+										{{ article.first_name }}&nbsp;{{ article.last_name }}</p>
+								</div>
+								<div class="col-5 col-lg-4">
+									{% if article.image_url is defined %}
+										<img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset(article.image_url) }}" alt="">
+									{% else %}
+										<img class="article-card--image article-border-2 mt-4 shadow" src="{{ asset('images/placeholder.gif') }}" alt="">
+									{% endif %}
+								</div>
+							</div>
+							<div class="row">
+								<small class="">
+									<span>{{ article.created_at|date('d/m/Y') }}
+									</span>
 
-      </div>
-    </div>
-  
+									{% if article.time_to_read == 1 %}
+										<span>1 min read</span>
+									{% else %}
+										<span>{{ article.time_to_read ~ " mins read " }}</span>
 
-      <!-- ARTICLES GROUP ENDS HERE -->
+									</small>
+								{% endif %}
+								<p class="pt-2 article-card--tags">{{ article.tags }}</p>
+							</div>
+						</div>
+					</a>
+				</div>
+			{% endfor %}
+			<!-- ARTICLE CARD ENDS HERE -->
+		</div>
+	</div>
+	<!-- ARTICLES GROUP ENDS HERE -->
 
-        <!-- ARTICLE MINICARDS START HERE -->
-<div class="container-xl mb-5">
-  <div class="row justify-content-center">
+	<!-- ARTICLE MINICARDS START HERE -->
+	<div class="container-xl mb-5">
+		<div class="row justify-content-center">
+			{% for article in latestArticles|slice(0,3) %}
+				<div class="col-12 col-sm-6 col-md-4">
+					<div class="card h-100 justify-self-center">
+						<div class="card-header">
+							<strong>{{ article.first_name }}&nbsp;{{ article.last_name }}
+							</strong>
+						</div>
+						<div class="card-body d-flex flex-column">
+							<h5 class="card-title">{{ article.title }}</h5>
+							{% if article.subtitle is defined %}
+								<p class="card-text">{{ article.subtitle }}</p>
+							{% endif %}
+							<div class="mt-auto">
+								<a href="{{ path('article-single', { 'id' : article.id }) }}" class="btn btn-primary">Read now</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 
-    {% for article in latestArticles|slice(0,3) %}
-    
-
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 justify-self-center">
-        <div class="card-header">
-          <strong>{{ article.first_name }}&nbsp;{{ article.last_name }} </strong>
-        </div>
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ article.title }}</h5>
-          {% if article.subtitle is defined %}
-          <p class="card-text">{{ article.subtitle }}</p>
-          {% endif %}
-          <div class="mt-auto">
-            <a href="{{ path('article-single', { 'id' : article.id }) }}" class="btn btn-primary">Read now</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-   
-    {% endfor %}
-    
-
-  </div>
-</div>
-
-<!-- ARTICLE MINICARDS END HERE -->
-
+	<!-- ARTICLE MINICARDS END HERE -->
 {% endblock %}

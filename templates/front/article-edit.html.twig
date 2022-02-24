@@ -1,55 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mt-4 mb-4">
-    <div class="row justify-content-md-center">
-      <div class="col-md-12 col-lg-8">
-        <h1 class="h2 mb-4 text-center">Edit article</h1>
+	<div class="container mt-4 mb-4">
+		<div class="row justify-content-md-center">
+			<div class="col-md-12 col-lg-8">
+				<h1 class="h2 mb-4 text-center">Edit article</h1>
 
-          		<!-- FORM STARTS HERE -->
-
+				<!-- FORM STARTS HERE -->
 				{{ form_start(articleForm) }}
 				{{ form_row(articleForm.title) }}
 				{{ form_row(articleForm.subtitle) }}
 				{{ form_row(articleForm.image_url) }}
 				{{ form_row(articleForm.content) }}
-
-        <!-- COLOR PICKER STARTS HERE -->
+				<!-- COLOR PICKER STARTS HERE -->
 				<label class="my-3 d-block" for="">Select accent color</label>
 				<div class="d-flex color-picker--wrapper mb-4">
 					{% block choice_widget %}
 						{% for child in articleForm.color %}
 							<label class="{{ 'me-3 color-picker color-picker-color-' ~ child.vars.value }}">
 								{{- form_widget(child, { 'label_attr' : {
-              'class': 'input-span'
-            } })-}}
+              'class': 'input-span' } })-}}
 							</label>
 						{% endfor %}
 					{% endblock choice_widget %}
 				</div>
-          <!-- COLOR PICKER STARTS HERE -->
-
+				<!-- COLOR PICKER STARTS HERE -->
 				{{ form_row(articleForm.tags_id) }}
 				{{ form_row(articleForm.timeToRead) }}
 				<div class="article-buttons d-flex">
-				{{ form_row(articleForm.submit) }}
+					{{ form_row(articleForm.submit) }}
 				</div>
 				{{ form_end(articleForm) }}
-
 				<!-- FORM ENDS HERE -->
-       
-      </div>
-    </div>
-  </div>
-
-  </div>
-</div>
-</div>
-{{ tinymce_init({
+			</div>
+		</div>
+	</div>
+</div></div></div>{{ tinymce_init({
   theme: {'modern':{'language': app.request.locale, 'height': 500 }},
   toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
   autosave_ask_before_unload: false
   })
-}}
-
-{% endblock %}
+}}{% endblock %}

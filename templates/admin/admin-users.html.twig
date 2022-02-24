@@ -1,147 +1,135 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-<div class="sidebar-space">
-    <h2 class="mt-4 mb-lg-4">Registered users</h2>
-    {% for message in app.flashes('notice') %}
- 
-    <div class="alert alert-danger" role="alert">
-        {{ message}}
-      </div>
-    {% endfor %}
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First name</th>
-                    <th scope="col">Last name</th>
-                    <th scope="col">Email</th>
-                    <th class="text-center" scope="col">Operations</th>
+	<div class="sidebar-space">
+		<h2 class="mt-4 mb-lg-4">Registered users</h2>
+		{% for message in app.flashes('notice') %}
 
-                </tr>
-            </thead>
-            <tbody>
-                {% set id = 1 %}
-                {% for user in users %}
+			<div class="alert alert-danger" role="alert">
+				{{ message}}
+			</div>
+		{% endfor %}
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">First name</th>
+						<th scope="col">Last name</th>
+						<th scope="col">Email</th>
+						<th class="text-center" scope="col">Operations</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set id = 1 %}
+					{% for user in users %}
 
-                <!-- DELETE MODAL STARTS HERE -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Deleting user</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                <button id="delete-modal--button" type="button" class="btn btn-danger">Yes, delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- DELETE MODALS ENDS HERE -->
+						<!-- DELETE MODAL STARTS HERE -->
+						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Deleting user</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Are you sure?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+										<button id="delete-modal--button" type="button" class="btn btn-danger">Yes, delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- DELETE MODALS ENDS HERE -->
 
-                <!-- RESET PASSWORD MODAL STARTS HERE -->
-                <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Resetting user password</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                New random password will be generated. Are you sure?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                <button id="resetpass-modal--button" type="button" class="btn btn-danger">Yes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- RESET MODAL MODALS ENDS HERE -->
+						<!-- RESET PASSWORD MODAL STARTS HERE -->
+						<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Resetting user password</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										New random password will be generated. Are you sure?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+										<button id="resetpass-modal--button" type="button" class="btn btn-danger">Yes</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- RESET MODAL MODALS ENDS HERE -->
 
-                {% if user.firstName != "Admin" %}
-                <tr id="user-row" data-id="{{ user.id }}">
-                    <td>{{ id }}</td>
-                    {% set id = id + 1 %}
-                    <td> {{ user.firstName }}</td>
-                    <td> {{ user.lastName }}</td>
-                    <td> {{ user.email }}</td>
-                    <td>
-                        <div class="text-center row--buttons" 
-                            data-urlreset="{{ url('reset-password', {id: user.id }) }}"
-                            data-urldelete="{{ url('remove-user', { id: user.id }) }}">
-                            <button 
-                                class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#resetPasswordModal">
-                                <img class="text-center" src="{{ asset('assets/images/admin/change-password.svg') }}"
-                                    alt="change password icon">
-                            </button>
+						{% if user.firstName != "Admin" %}
+							<tr id="user-row" data-id="{{ user.id }}">
+								<td>{{ id }}</td>
+								{% set id = id + 1 %}
+								<td>
+									{{ user.firstName }}</td>
+								<td>
+									{{ user.lastName }}</td>
+								<td>
+									{{ user.email }}</td>
+								<td>
+									<div class="text-center row--buttons" data-urlreset="{{ url('reset-password', {id: user.id }) }}" data-urldelete="{{ url('remove-user', { id: user.id }) }}">
+										<button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
+											<img class="text-center" src="{{ asset('assets/images/admin/change-password.svg') }}" alt="change password icon">
+										</button>
 
-                            <buttontype="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                <img class="text-center" src="{{ asset('assets/images/admin/delete.svg') }}" 
-                                alt="trashcan">
-                            </buttontype=>
-                        </div>
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+										<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+											<img class="text-center" src="{{ asset('assets/images/admin/delete.svg') }}" alt="trashcan">
+										</button>
+									</div>
+								</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
-    {% endblock %}
-    {% block javascripts %}
-    {{ parent() }}
-    <script>
-
-        /* 1. When user clicks delete/change password button, user.id is passed to this script
+	{% endblock %}
+	{% block javascripts %}
+		{{ parent() }}
+		<script>
+			/* 1. When user clicks delete/change password button, user.id is passed to this script
         * but executed when user confirms operation in modal window
         * There are no data passed to modal window
         */
-        let urlReset = '';
-        let urlDelete = '';
-        const rowButtons = document.querySelectorAll(".row--buttons");
-        console.log(rowButtons);
-        rowButtons.forEach((row) => {
-            row.addEventListener("click", function (e) {
-           
-                urlReset = '';
-                urlDelete = '';
-                const dataSet = e.target.parentNode.parentNode.dataset;
-            
-                urlReset = dataSet.urlreset;
-                urlDelete = dataSet.urldelete;
-                console.log(urlDelete);
-            });
-        });
-        const resetpassButton = document.getElementById('resetpass-modal--button');
-        const deleteButton = document.getElementById('delete-modal--button');
+let urlReset = '';
+let urlDelete = '';
+const rowButtons = document.querySelectorAll(".row--buttons");
+console.log(rowButtons);
+rowButtons.forEach((row) => {
+row.addEventListener("click", function (e) {
 
-        deleteButton.addEventListener('click', function() {
-            goToPath(urlDelete);
-        })
-        resetpassButton.addEventListener('click', function() {
-            goToPath(urlReset);
-        });
+urlReset = '';
+urlDelete = '';
+const dataSet = e.target.parentNode.parentNode.dataset;
 
-        function goToPath(urlPath) {
-            console.log(urlPath);
-            location.href = urlPath;
-        }
+urlReset = dataSet.urlreset;
+urlDelete = dataSet.urldelete;
+console.log(urlDelete);
+});
+});
+const resetpassButton = document.getElementById('resetpass-modal--button');
+const deleteButton = document.getElementById('delete-modal--button');
 
+deleteButton.addEventListener('click', function () {
+goToPath(urlDelete);
+})
+resetpassButton.addEventListener('click', function () {
+goToPath(urlReset);
+});
 
-    </script>
+function goToPath(urlPath) {
+console.log(urlPath);
+location.href = urlPath;
+}
+		</script>
 
-    {% endblock %}
+	{% endblock %}

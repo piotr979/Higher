@@ -1,55 +1,70 @@
-{% extends 'admin/base.html.twig' %} 
+{% extends 'admin/base.html.twig' %}
 
-            {% block body %}
-            <div class="sidebar-space">
-                <h2 class="mt-4 mb-lg-4">Comments by all users</h2>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Author name</th>
-                                <th scope="col">Comment</th>
-                                <th class="text-center" scope="col">Operations</th>
+{% block body %}
+	<div class="sidebar-space">
+		<h2 class="mt-4 mb-lg-4">Comments by all users</h2>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Author name</th>
+						<th scope="col">Comment</th>
+						<th class="text-center" scope="col">Operations</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% set id = 1 %}
+					{% for comment in comments %}
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% set id = 1 %}
-                            {% for comment in comments %}
-                            <tr data-id="{{ comment.id }}">
-                                <td>{{ id }}</td>
-                                {% set id = id + 1 %}
-                                <td> {{ comment.first_name }}&nbsp; 
-                                    {% if comment.last_name is defined %}
-                                    {{ comment.last_name }}
-                                    {% endif %}
-                                </td>
-                                <td> {{ comment.content }}</td>
-                              
-                                <td>
-                                    <div class="text-center">
-                                        <button class="btn btn-danger">
-                                <img class="text-center" src="{{ asset('assets/images/admin/delete.svg') }}" alt="">
-                            </button>
-                            </div>  
-                        </td>
-                            </tr>
-                                {# {% set urlToArticle = url('article-edit', {'id': article.id} ) %}
-                                <tr data-id="{{ article.id }}" data-path="{{ urlToArticle }}" class="article-table__link">
-                                    <td>
-                                        {{ id }}
-                                    </td>
-                                    {% set id = id + 1 %}
-                                    <td>{{ article.title|length > 30 ? article.title|slice(0,30) ~ '...' : article.title }}</td>
-                                    <td>{{ article.tags }}
-                                    </td>
-                                    <td>{{ article.created_at | date("m/d/Y H:m:s") }}</td>
-                                </tr> #}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-                {% endblock %}
+						<!-- DELETE MODAL STARTS HERE -->
+						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Deleting comment</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Are you sure?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+										<button id="delete-modal--button" type="button" class="btn btn-danger">Yes, delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- DELETE MODALS ENDS HERE -->
+
+						<tr data-id="{{ comment.id }}">
+							<td>{{ id }}</td>
+              
+							{% set id = id + 1 %}
+							<td>
+								{{ comment.first_name }}&nbsp;
+								{% if comment.last_name is defined %}
+									{{ comment.last_name }}
+								{% endif %}
+							</td>
+							<td>
+								{{ comment.content }}
+              </td>
+							<td>
+								<div class="text-center" data-urldelete="{{ url('remove-comment', { id: comment.id }) }}">
+									<button type="button" class="btn btn-danger btn-sm delete-buttons" data-bs-toggle="modal" data-bs-target="#deleteModal">
+										<img class="text-center" src="{{ asset('assets/images/admin/delete.svg') }}" alt="">
+									</button>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/js/deleteModal.js') }}"></script>
+{% endblock %}

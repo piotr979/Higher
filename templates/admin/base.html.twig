@@ -4,77 +4,77 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet"
-             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 		<link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/css/navigator.css') }}">
+		<link rel="stylesheet" href="{{ asset('assets/css/navigator.css') }}">
 	</head>
-<body>
-        <!-- NAVIGATOR OPEN/CLOSE BUTTON STARTS HERE -->
-        <input type="checkbox" class="navigator-checkbox" id="navigator-check" checked="checked">
-        <label for="navigator-check">
-            <image src="{{ asset('assets/images/hamburger.svg')}}" id="open-sidebar" alt="open sidebar">
-                <image src="{{ asset('assets/images/admin/hide-nav.svg') }}" id="close-sidebar" alt="close sidebar">
-        </label>
-        <!-- NAVIGATOR OPEN/CLOSE BUTTON ENDS HERE -->
-    
-        <!-- NAVIGATOR SIDEBAR STARTS HERE -->
-        <div id="navigator-sidebar" class="navigator-sidebar">
-            <div class="sidebar-wrapper">
-               
-                <h4 class="mt-2">Admin panel</h4>
-               
-                <div id="sidebar-chapters" class="sidebar-chapters">
-                  <ul class="sidebar--anchor-list">
-                      <a class="text-dark " href="{{ path('admin-articles') }}">
-                        
-                            <li class="clean-list-item py-1 mb-2 d-flex
-                            {% if app.request.attributes.get('_route') == 'admin-articles' %} anchor-active {% endif %}">
-                                <img class="clean-list--image" src="{{ asset('assets/images/admin/articles.svg') }}">Articles
-                            </li>
-                    </a>
-                      <a class="text-dark" href="{{ path('admin-comments') }}"><li class="clean-list-item py-1 mb-2 d-flex
-                        {% if app.request.attributes.get('_route') == 'admin-comments' %} anchor-active {% endif %}">  
-                           <img class="clean-list--image" src="{{ asset('assets/images/admin/comments.svg') }}">Comments
-                        </li>
-                    </a>
-                      <a class="text-dark" href="{{ path('admin-users') }}"><li class="clean-list-item py-1 d-flex
-                        {% if app.request.attributes.get('_route') == 'admin-users' %} anchor-active {% endif %}">   
-                          <img class="clean-list--image" src="{{ asset('assets/images/admin/users.svg') }}">Users
-                        </li>
-                    </a>
-                  </ul>
-                    <p class="mt-4"><a href="{{ path('main') }}">Switch to front </a></p>
-                    <p><a href="{{ path('app_logout') }}">Log out</a></p>
-                    <div class="logo mt-5">
-                        <div class="logo-name">
-                            <h4>Higher</h4>
-                            <p class="mb-0">Creativity first</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- NAVIGATOR SIDEBAR ENDS HERE -->
-    
-        <!-- CONTENT STARTS HERE -->
-     <div class="container-fluid">
-    
-      
-   
-{% block body %}{% endblock %}
+	<body>
+		<!-- NAVIGATOR OPEN/CLOSE BUTTON STARTS HERE -->
+		<input type="checkbox" class="navigator-checkbox" id="navigator-check" checked="checked">
+		<label for="navigator-check">
+			<image src="{{ asset('assets/images/hamburger.svg')}}" id="open-sidebar" alt="open sidebar">
+			<image src="{{ asset('assets/images/admin/hide-nav.svg') }}" id="close-sidebar" alt="close sidebar">
+		</label>
+		<!-- NAVIGATOR OPEN/CLOSE BUTTON ENDS HERE -->
 
-</div>
-<!-- CONTENT STARTS HERE -->
-     
-    
-       {% block javascripts %}
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
-       <script src="{{ asset('assets/js/chapter-navigator.js') }}"></script>
-   
-   
-    {% endblock %}
- </body>
+		<!-- NAVIGATOR SIDEBAR STARTS HERE -->
+		<div id="navigator-sidebar" class="navigator-sidebar">
+			<div class="sidebar-wrapper">
 
-</html>
+				<h4 class="mt-2">Admin panel</h4>
+				<div id="sidebar-chapters" class="sidebar-chapters">
+					<ul class="sidebar--anchor-list">
+						<a class="text-dark " href="{{ path('admin-articles') }}">
+
+							<li class="clean-list-item py-1 mb-2 d-flex
+									                            {% if app.request.attributes.get('_route') == 'admin-articles' %} anchor-active {% endif %}">
+								<img class="clean-list--image" src="{{ asset('assets/images/admin/articles.svg') }}">Articles
+							</li>
+						</a>
+						<a class="text-dark" href="{{ path('admin-comments') }}">
+							<li class="clean-list-item py-1 mb-2 d-flex
+									                        {% if app.request.attributes.get('_route') == 'admin-comments' %} anchor-active {% endif %}">
+								<img class="clean-list--image" src="{{ asset('assets/images/admin/comments.svg') }}">Comments
+							</li>
+						</a>
+						<a class="text-dark" href="{{ path('admin-users') }}">
+							<li class="clean-list-item py-1 d-flex
+									                        {% if app.request.attributes.get('_route') == 'admin-users' %} anchor-active {% endif %}">
+								<img class="clean-list--image" src="{{ asset('assets/images/admin/users.svg') }}">Users
+							</li>
+						</a>
+					</ul>
+					<p class="mt-4">
+						<a href="{{ path('main') }}">Switch to front
+						</a>
+					</p>
+					<p>
+						<a href="{{ path('app_logout') }}">Log out</a>
+					</p>
+					<div class="logo mt-5">
+						<div class="logo-name">
+							<h4>Higher</h4>
+							<p class="mb-0">Creativity first</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- NAVIGATOR SIDEBAR ENDS HERE -->
+
+		<!-- CONTENT STARTS HERE -->
+		<div class="container-fluid"> {% block body %}{% endblock %}
+			</div>
+			<!-- CONTENT STARTS HERE -->
+
+			{% block javascripts %}
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+				<script src="{{ asset('assets/js/chapter-navigator.js') }}"></script>
+			{% endblock %}
+		</body>
+
+	</html>
