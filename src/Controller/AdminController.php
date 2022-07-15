@@ -13,7 +13,7 @@ use App\Entity\User;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'admin')]
-    public function test(): Response
+    public function admin(): Response
     {
         return $this->render('admin/index.html.twig');
     }

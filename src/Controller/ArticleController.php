@@ -25,7 +25,7 @@ class ArticleController extends AbstractController
      *****************************
      */ 
     #[Route('/articles/{sorting}/{page}/{tag}/{authorId}/{searchString}', name: 'articles')]
-    public function articles(int $page = 1, $sorting = 'newest', $searchString = '', $authorId = '0', $tag = 'notag', Request $request)
+    public function articles( Request $request, int $page = 1, $sorting = 'newest', $searchString = '', $authorId = '0', $tag = 'notag')
     {
         $repo = $this->getDoctrine()
             ->getRepository(Article::class);

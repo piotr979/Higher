@@ -30,7 +30,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function getAuthorsByNumberOfArticles(): array
     {
         $qb = $this->createQueryBuilder('a')
-        ->select('u.id, u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
+        ->select('a.id, u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
             ->innerJoin('a.user','u')
             ->groupBy('a.user')
             ->orderBy('count(a.user)','DESC');
@@ -87,8 +87,8 @@ class ArticleRepository extends ServiceEntityRepository
     INNER JOIN user ON article.user_id = user.id
     INNER JOIN article_tag ON article.id = article_tag.article_id 
     INNER JOIN tag ON article_tag.tag_id = tag.id
-    WHERE title LIKE CONCAT('%' , :searchString , '%') 
-                OR content LIKE CONCAT('%' , :searchString , '%')
+    WHERE title LIKE ('%' || :searchString || '%') 
+                OR content LIKE ('%' || :searchString || '%')
                 GROUP BY article.id ORDER BY 
      	    (CASE WHEN :sorting = 'newest' THEN created_at END) DESC,
             (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC";

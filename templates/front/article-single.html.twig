@@ -7,7 +7,12 @@
 
 	<div class="container">
 		<div class="row mt-4">
-			<img class="article-cover" src="{{ asset(article.imageUrl) }}" alt="">
+			{% if article.imageUrl != null %}
+
+			<img class="article-cover" src="
+			{{ asset(article.imageUrl) }}" alt="">
+            
+			{% endif %}
 		</div>
 
 		<div class="row my-4 text-center">
