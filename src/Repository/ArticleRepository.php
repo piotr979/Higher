@@ -30,8 +30,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function getAuthorsByNumberOfArticles(): array
     {
         $qb = $this->createQueryBuilder('a')
-        ->select('max(a.id), max(u.first_name), max(u.last_name), max(u.bio),
-                 max(u.photo_url), count(a.user)')
+        ->select('u.id, u.first_name, u.last_name, u.bio, u.photo_url, count(a.user)')
             ->innerJoin('a.user','u')
             ->groupBy('a.user')
             ->orderBy('count(a.user)','DESC');
@@ -60,27 +59,17 @@ class ArticleRepository extends ServiceEntityRepository
            INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id; 
         */
 
-        $connection = $this->getEntityManager()->getConnection();
-       $stmt = $connection->query('SELECT 
-       article.id, 
-       color,title,
-       content, 
-       image_url, 
-       time_to_read, 
-       created_at, 
-       first_name, 
-       last_name, 
-       ARRAY_AGG(tag_title, '.') AS tags, 
-       subtitle FROM article 
-       INNER JOIN "user" AS u ON article.user_id = u.id
+       $connection = $this->getEntityManager()->getConnection();
+       $stmt = $connection->query('SELECT article.id, color,title, content, image_url, 
+       time_to_read, created_at, first_name, last_name, GROUP_CONCAT(tag_title) AS tags, subtitle FROM article 
+       INNER JOIN user ON article.user_id = user.id
        INNER JOIN article_tag ON article.id = article_tag.article_id 
-       INNER JOIN tag ON article_tag.tag_id = tag.id 
-       GROUP BY article.id 
-       ORDER BY created_at DESC; ');
+       INNER JOIN tag ON article_tag.tag_id = tag.id GROUP BY article.id ORDER BY created_at DESC; ');
        
        $data = $stmt->fetchAllAssociative();
-       return $data;
+        return $data;
     }
+
 
     public function findAllPaginated($page, $sorting, $tag,$authorId, $searchString)
     {
