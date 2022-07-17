@@ -73,6 +73,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findAllPaginated($page, $sorting, $tag,$authorId, $searchString)
     {
+        
         $conn = $this->getEntityManager()->getConnection();
      
         $sqlTags = "SELECT article.id, color,title, content, image_url, 

@@ -29,6 +29,7 @@ class AdminController extends AbstractController
             $authorId,
             ''
         );
+        
         return $this->render('admin/admin-articles.html.twig', [
             'articles' => $articles
         ]);

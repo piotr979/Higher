@@ -57,25 +57,19 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 3, 6
             ],
             [
-                'The Best Black Friday Weekend Tech and Electronics Deals',
-                'All products and services featured are independently chosen by editors. 
-        owever, Billboard may receive a commission on orders placed through its retail links,
-         and the retailer may receive certain auditable data for accounting purposes.
-        Black Friday may be over but the savings continue through Black Friday weekend and 
-        into Cyber Monday.
-        A number of electronics brands have discounted their top tech products this weekend,
-         with savings of up to $350 on top-rated TVs, headphones, earbuds and smartwatches. 
-         Many of these electronics deals feature products that are being discounted for the 
-         first time this year, making this weekend a great time to snag those wireless earbus or smart home device you’ve been eyeing.
-        From a new $54 Amazon fitness tracker to a $45 AirPods dupe, we’ve rounded up the best tech and electronics deals to shop
-         this Black Friday weekend. Quantities are starting to run out so we recommend adding to cart now.
-        $101 off Sony WH-1000XM4 Wireless Headphone Sony WH-1000XM4 Wireless
-        Shop: Sony WH-1000XM4 Wireless Noise-Cancelling Headphones $248
-        One of the best Black Friday weekend deals is on the Sony WH-1000XM4 Wireless Headphones — the top-rated noise-cancelling headphones on the market today. Regularly $349+, the headphones are on sale for just $248 — the lowest price we’ve seen for these cans all year. See the deal here.
-        $40 off Echo Show 5 ',
+                'Herbalife Nutrition, a premier global nutrition company, today introduces its latest science-backed product.',
+                ' According to a recent U.S. study by OnePoll, the average person overindulges in 
+                unhealthy food three nights per week, and when a person is working to maintain
+                 a healthy lifestyle or on a weight loss journey, overindulging affects their 
+                 health goals. This product helps trim the fat from food to keep consumers 
+                 on track with their health goals.While this new product is not a stand-alone weight loss product,
+                it can be helpful to consumers who indulge and have fatty foods as part of a meal, 
+                if consumed within two hours of the meal. Fat Release is formulated with Litramine®, 
+                the beneficial ingredient in the product, which is derived from prickly pear and is a patented 
+                 cactus fiber ingredient that helps trim the fat from food.',
                 '',  // imageUrl
                 [1, 2], // tags
-                3, 8
+                2, 7
             ]
         ];
 
