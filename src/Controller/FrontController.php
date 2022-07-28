@@ -54,7 +54,6 @@ class FrontController extends AbstractController
         $userForm->handleRequest($request);
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-           /* get Manager and User data  */
           $em = $this->getDoctrine()->getManager();
           $userUpdatedData = $userForm->getData();
         

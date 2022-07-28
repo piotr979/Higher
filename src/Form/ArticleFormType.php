@@ -52,7 +52,10 @@ class ArticleFormType extends AbstractType
                 'data' => $articleData->getTitle()
             ])
             ->add('subtitle', TextType::class, [
-                'data' => $articleData->getSubtitle()
+                'data' => $articleData->getSubtitle(),
+                'attr' => [
+                    'maxlength' => 511
+                ]
             ])
             ->add('image_url', FileType::class, [
                 'label' => 'Cover image',

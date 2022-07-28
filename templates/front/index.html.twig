@@ -72,7 +72,7 @@
 		<div class="row">
 
 			<!-- ARTICLE CARD -->
-			{% for article in latestArticles|slice(4,7) %}
+			{% for article in latestArticles|slice(3,8) %}
 				<div class="col-md-6 col-12 mb-3">
 					<a class="article-card--link" href="{{ path('article-single',{ id: article.id } )}} ">
 						<div class="{{ 'article-card pt-2 ps-2 hover-shadow border-color-' ~ article.color }}">

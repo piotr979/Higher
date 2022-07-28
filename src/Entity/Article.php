@@ -69,7 +69,7 @@ class Article
     private $timeToRead;
 
     /**
-     * @ORM\Column(type="string", length=40, nullable=true)
+     * @ORM\Column(type="string", length=512, nullable=true)
      */
     private $subtitle;
 

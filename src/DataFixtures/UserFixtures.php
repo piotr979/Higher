@@ -18,7 +18,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
        $emails = [
-        'user3@user3.com','user@user.com', 'user2@user2.com', 'admin@admin.com'
+        'user@user.com','user2@user2.com', 'user3@user3.com', 'admin@admin.com'
        ];
        $firstName = [
         'John','Andrea', 'Robert', 'Admin'
@@ -29,7 +29,7 @@ class UserFixtures extends Fixture
        $bio = [
         'John Murphy is a developer based in India. He enjoys solving complex
         technical problems and loves working with JavaScript.',
-        'Cosima has been an editor at Higher since 2013.
+        'Andrea has been an editor at Higher since 2013.
          Whenever she’s not writing articles for the weekly Higher Newsletter,
           she’s probably working on a new Life eBook.',
           'Robert Edwin has been writing for over 30 years,

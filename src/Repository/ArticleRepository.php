@@ -70,10 +70,8 @@ class ArticleRepository extends ServiceEntityRepository
         return $data;
     }
 
-
     public function findAllPaginated($page, $sorting, $tag,$authorId, $searchString)
     {
-        
         $conn = $this->getEntityManager()->getConnection();
      
         $sqlTags = "SELECT article.id, color,title, content, image_url, 
@@ -89,8 +87,8 @@ class ArticleRepository extends ServiceEntityRepository
     INNER JOIN user ON article.user_id = user.id
     INNER JOIN article_tag ON article.id = article_tag.article_id 
     INNER JOIN tag ON article_tag.tag_id = tag.id
-    WHERE title LIKE ('%' || :searchString || '%') 
-                OR content LIKE ('%' || :searchString || '%')
+    WHERE title LIKE CONCAT('%' , :searchString , '%') 
+                OR content LIKE CONCAT('%' , :searchString , '%')
                 GROUP BY article.id ORDER BY 
      	    (CASE WHEN :sorting = 'newest' THEN created_at END) DESC,
             (CASE WHEN :sorting = 'oldest' THEN created_at END) ASC";

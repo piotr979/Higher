@@ -25,7 +25,13 @@ class ArticleController extends AbstractController
      *****************************
      */ 
     #[Route('/articles/{sorting}/{page}/{tag}/{authorId}/{searchString}', name: 'articles')]
-    public function articles( Request $request, int $page = 1, $sorting = 'newest', $searchString = '', $authorId = '0', $tag = 'notag')
+    public function articles(
+        Request $request,
+        int $page = 1, 
+        $sorting = 'newest', 
+        $searchString = '', 
+        $authorId = '0', 
+        $tag = 'notag')
     {
         $repo = $this->getDoctrine()
             ->getRepository(Article::class);
@@ -41,7 +47,7 @@ class ArticleController extends AbstractController
         // no object needed to pass to new form, thus null
         $filterForm = $this->createForm(AsideFilterType::class , null, ['sorting' => $sorting, 'searchString' => $searchString]);
         $filterForm->handleRequest($request);
-
+                   
         if ($filterForm->isSubmitted() && $filterForm->isValid())
         {
             $data = $filterForm->getData();
@@ -52,7 +58,14 @@ class ArticleController extends AbstractController
             ));
 
         }
-        return $this->render('front/articles.html.twig', ['articles' => $articles, 'sorting' => $sorting, 'searchString' => $searchString, 'mostPopularTags' => $mostPopularTags, 'filterForm' => $filterForm->createView() ]);
+       
+        return $this->render('front/articles.html.twig', 
+                        ['articles' => $articles, 
+                        'sorting' => $sorting, 
+                        'searchString' => $searchString, 
+                        'mostPopularTags' => $mostPopularTags, 
+                        'filterForm' => $filterForm->createView() 
+                    ]);
     }
     /** ****************************
      *  SINGLE ARTICLE ROUTE
@@ -99,7 +112,8 @@ class ArticleController extends AbstractController
         if ($articleForm->isSubmitted() && $articleForm->isValid())
         {
             $em = $this->getDoctrine()
-                ->getManager();
+                        ->getManager();
+
             $formData = $articleForm->getData();
             $article = new Article();
             $article->setUser($this->getUser());
@@ -131,7 +145,11 @@ class ArticleController extends AbstractController
      */
 
     #[Route('/article-edit/{id}', name: "article-edit")]
-    public function editArticle(int $id, Request $request, FileHandler $fileHandler)
+    public function editArticle(
+        int $id, 
+        Request $request, 
+        FileHandler $fileHandler
+        )
     {
 
         // Check if this id's article owns user

@@ -30,7 +30,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
          offered by Jean Bateman. The 7,648-square-foot home includes a rustic kitchen that
           blends stone and wood and opens to a spacious living area and wet bar. The kitchen
            includes a separate baker’s cupboard.',
-                '',  // imageUrl
+                'uploads/covers/12763-celeriac37c04cbbd02913c81049531cef3473b5.jpg',  // imageUrl
                 [1, 2], // tags
                 1, 5
 
@@ -52,7 +52,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         Shop: Sony WH-1000XM4 Wireless Noise-Cancelling Headphones $248
         One of the best Black Friday weekend deals is on the Sony WH-1000XM4 Wireless Headphones — the top-rated noise-cancelling headphones on the market today. Regularly $349+, the headphones are on sale for just $248 — the lowest price we’ve seen for these cans all year. See the deal here.
         $40 off Echo Show 5 ',
-                '',  // imageUrl
+                'uploads/covers/blackfriday3f40b8c4d896c9effe21debfb47d4812.png',  // imageUrl
                 [1, 2], // tags
                 3, 6
             ],
@@ -67,7 +67,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
                 if consumed within two hours of the meal. Fat Release is formulated with Litramine®, 
                 the beneficial ingredient in the product, which is derived from prickly pear and is a patented 
                  cactus fiber ingredient that helps trim the fat from food.',
-                '',  // imageUrl
+                'uploads/covers/HealthBlocks6026326d5b9ff0cb541463696786795e.png',  // imageUrl
                 [1, 2], // tags
                 2, 7
             ]
